@@ -1,0 +1,411 @@
+// ============================================================
+// CUSTOM UTILITIES - Grid, Flex, Spacing, Display, etc.
+// ~11KB minified | No component styles, only utilities
+// ============================================================
+
+// --- VARIABLES ---
+$spacing-scale: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 1rem,
+  4: 1.5rem,
+  5: 3rem,
+);
+
+$grid-columns: 12;
+
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  2xl: 1400px,
+);
+
+// ============================================================
+// DISPLAY
+// ============================================================
+.d-none        { display: none !important; }
+.d-block       { display: block !important; }
+.d-inline-block{ display: inline-block !important; }
+.d-inline-flex { display: inline-flex !important; }
+.d-flex        { display: flex !important; }
+.d-grid        { display: grid !important; }
+
+@each $bp, $val in $breakpoints {
+  @media (min-width: $val) {
+    .d-#{$bp}-none        { display: none !important; }
+    .d-#{$bp}-block       { display: block !important; }
+    .d-#{$bp}-inline-flex { display: inline-flex !important; }
+    .d-#{$bp}-flex        { display: flex !important; }
+    .d-#{$bp}-grid        { display: grid !important; }
+  }
+}
+
+// ============================================================
+// FLEXBOX
+// ============================================================
+.flex-row           { flex-direction: row !important; }
+.flex-column        { flex-direction: column !important; }
+.flex-row-reverse   { flex-direction: row-reverse !important; }
+.flex-column-reverse{ flex-direction: column-reverse !important; }
+.flex-wrap          { flex-wrap: wrap !important; }
+.flex-nowrap        { flex-wrap: nowrap !important; }
+.flex-1             { flex: 1 1 0% !important; }
+.flex-auto          { flex: 1 1 auto !important; }
+.flex-none          { flex: none !important; }
+.flex-grow-0        { flex-grow: 0 !important; }
+.flex-grow-1        { flex-grow: 1 !important; }
+.flex-shrink-0      { flex-shrink: 0 !important; }
+.flex-shrink-1      { flex-shrink: 1 !important; }
+
+@each $bp, $val in $breakpoints {
+  @media (min-width: $val) {
+    .flex-#{$bp}-row           { flex-direction: row !important; }
+    .flex-#{$bp}-column        { flex-direction: column !important; }
+    .flex-#{$bp}-wrap          { flex-wrap: wrap !important; }
+    .flex-#{$bp}-nowrap        { flex-wrap: nowrap !important; }
+    .flex-#{$bp}-1             { flex: 1 1 0% !important; }
+    .flex-#{$bp}-grow-0        { flex-grow: 0 !important; }
+    .flex-#{$bp}-grow-1        { flex-grow: 1 !important; }
+    .flex-#{$bp}-shrink-0      { flex-shrink: 0 !important; }
+  }
+}
+
+// ============================================================
+// JUSTIFY CONTENT
+// ============================================================
+.justify-content-start   { justify-content: flex-start !important; }
+.justify-content-center  { justify-content: center !important; }
+.justify-content-end     { justify-content: flex-end !important; }
+.justify-content-between { justify-content: space-between !important; }
+.justify-content-around  { justify-content: space-around !important; }
+.justify-content-evenly  { justify-content: space-evenly !important; }
+
+@each $bp, $val in $breakpoints {
+  @media (min-width: $val) {
+    .justify-content-#{$bp}-start   { justify-content: flex-start !important; }
+    .justify-content-#{$bp}-center  { justify-content: center !important; }
+    .justify-content-#{$bp}-end     { justify-content: flex-end !important; }
+    .justify-content-#{$bp}-between { justify-content: space-between !important; }
+  }
+}
+
+// ============================================================
+// ALIGN ITEMS
+// ============================================================
+.align-items-start    { align-items: flex-start !important; }
+.align-items-center   { align-items: center !important; }
+.align-items-end      { align-items: flex-end !important; }
+.align-items-stretch  { align-items: stretch !important; }
+.align-items-baseline { align-items: baseline !important; }
+
+// ============================================================
+// ALIGN SELF
+// ============================================================
+.align-self-start  { align-self: flex-start !important; }
+.align-self-center { align-self: center !important; }
+.align-self-end    { align-self: flex-end !important; }
+.align-self-stretch{ align-self: stretch !important; }
+
+// ============================================================
+// GRID
+// ============================================================
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(var(--gutter, 0.75rem) * -0.5);
+  margin-left: calc(var(--gutter, 0.75rem) * -0.5);
+}
+
+.row > * {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  padding-right: calc(var(--gutter, 0.75rem) * 0.5);
+  padding-left: calc(var(--gutter, 0.75rem) * 0.5);
+  margin-top: var(--gutter-row, var(--gutter, 0.75rem));
+}
+
+// Auto columns
+@for $i from 1 through $grid-columns {
+  .col-#{$i}  { width: calc(#{$i} / #{$grid-columns} * 100%); }
+}
+
+.col {
+  flex: 1 0 0%;
+}
+
+.col-auto {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+// Responsive columns
+@each $bp, $val in $breakpoints {
+  @media (min-width: $val) {
+    @for $i from 1 through $grid-columns {
+      .col-#{$bp}-#{$i} { width: calc(#{$i} / #{$grid-columns} * 100%); }
+    }
+    .col-#{$bp}      { flex: 1 0 0%; }
+    .col-#{$bp}-auto { flex: 0 0 auto; width: auto; }
+  }
+}
+
+// Grid gap
+@each $bp, $val in $breakpoints {
+  @media (min-width: $val) {
+    @each $size, $space in $spacing-scale {
+      .gap-#{$bp}-#{$size} { gap: $space !important; }
+    }
+  }
+}
+
+// ============================================================
+// SPACING (margin & padding)
+// ============================================================
+$directions: (
+  '': '',
+  't': '-top',
+  'b': '-bottom',
+  's': '-inline-start',
+  'e': '-inline-end',
+  'x': '-left: , -right',
+  'y': '-top: , -bottom',
+  'm': '-top: , -right: , -bottom: , -left',
+  'p': '',
+);
+
+@each $size, $space in $spacing-scale {
+  // Padding
+  .p-#{$size}  { padding: $space !important; }
+  .pt-#{$size} { padding-top: $space !important; }
+  .pb-#{$size} { padding-bottom: $space !important; }
+  .ps-#{$size} { padding-inline-start: $space !important; }
+  .pe-#{$size} { padding-inline-end: $space !important; }
+  .px-#{$size} { padding-left: $space !important; padding-right: $space !important; }
+  .py-#{$size} { padding-top: $space !important; padding-bottom: $space !important; }
+
+  // Margin
+  .m-#{$size}  { margin: $space !important; }
+  .mt-#{$size} { margin-top: $space !important; }
+  .mb-#{$size} { margin-bottom: $space !important; }
+  .ms-#{$size} { margin-inline-start: $space !important; }
+  .me-#{$size} { margin-inline-end: $space !important; }
+  .mx-#{$size} { margin-left: $space !important; margin-right: $space !important; }
+  .my-#{$size} { margin-top: $space !important; margin-bottom: $space !important; }
+
+  // Auto margins
+  .m-auto  { margin: auto !important; }
+  .mx-auto{ margin-left: auto !important; margin-right: auto !important; }
+  .mt-auto{ margin-top: auto !important; }
+  .mb-auto{ margin-bottom: auto !important; }
+  .ms-auto{ margin-inline-start: auto !important; }
+  .me-auto{ margin-inline-end: auto !important; }
+
+  // Responsive
+  @each $bp, $val in $breakpoints {
+    @media (min-width: $val) {
+      .p-#{$bp}-#{$size}  { padding: $space !important; }
+      .px-#{$bp}-#{$size} { padding-left: $space !important; padding-right: $space !important; }
+      .py-#{$bp}-#{$size} { padding-top: $space !important; padding-bottom: $space !important; }
+      .m-#{$bp}-#{$size}  { margin: $space !important; }
+      .mx-#{$bp}-#{$size} { margin-left: $space !important; margin-right: $space !important; }
+      .my-#{$bp}-#{$size} { margin-top: $space !important; margin-bottom: $space !important; }
+    }
+  }
+}
+
+// ============================================================
+// GAP (standalone)
+// ============================================================
+@each $size, $space in $spacing-scale {
+  .gap-#{$size} { gap: $space !important; }
+}
+
+// ============================================================
+// WIDTH / HEIGHT
+// ============================================================
+.w-25   { width: 25% !important; }
+.w-50   { width: 50% !important; }
+.w-75   { width: 75% !important; }
+.w-100  { width: 100% !important; }
+.w-auto { width: auto !important; }
+
+.h-25   { height: 25% !important; }
+.h-50   { height: 50% !important; }
+.h-75   { height: 75% !important; }
+.h-100  { height: 100% !important; }
+.h-auto { height: auto !important; }
+
+.mw-100 { max-width: 100% !important; }
+.mh-100 { max-height: 100% !important; }
+.min-vw-100 { min-width: 100vw !important; }
+.min-vh-100 { min-height: 100vh !important; }
+.vw-100 { width: 100vw !important; }
+.vh-100 { height: 100vh !important; }
+
+// ============================================================
+// BORDER
+// ============================================================
+.border        { border: 1px solid var(--border-color, rgba(0,0,0,0.12)) !important; }
+.border-0      { border: 0 !important; }
+.border-top    { border-top: 1px solid var(--border-color, rgba(0,0,0,0.12)) !important; }
+.border-bottom { border-bottom: 1px solid var(--border-color, rgba(0,0,0,0.12)) !important; }
+.border-start  { border-inline-start: 1px solid var(--border-color, rgba(0,0,0,0.12)) !important; }
+.border-end    { border-inline-end: 1px solid var(--border-color, rgba(0,0,0,0.12)) !important; }
+
+// ============================================================
+// ROUNDED
+// ============================================================
+.rounded      { border-radius: 0.375rem !important; }
+.rounded-0    { border-radius: 0 !important; }
+.rounded-1    { border-radius: 0.25rem !important; }
+.rounded-2    { border-radius: 0.5rem !important; }
+.rounded-3    { border-radius: 0.75rem !important; }
+.rounded-4    { border-radius: 1rem !important; }
+.rounded-circle  { border-radius: 50% !important; }
+.rounded-pill    { border-radius: 50rem !important; }
+
+.rounded-top    { border-top-left-radius: 0.375rem !important; border-top-right-radius: 0.375rem !important; }
+.rounded-bottom { border-bottom-left-radius: 0.375rem !important; border-bottom-right-radius: 0.375rem !important; }
+.rounded-start  { border-top-left-radius: 0.375rem !important; border-bottom-left-radius: 0.375rem !important; }
+.rounded-end    { border-top-right-radius: 0.375rem !important; border-bottom-right-radius: 0.375rem !important; }
+
+// ============================================================
+// POSITION
+// ============================================================
+.position-static   { position: static !important; }
+.position-relative { position: relative !important; }
+.position-absolute { position: absolute !important; }
+.position-fixed    { position: fixed !important; }
+.position-sticky   { position: sticky !important; }
+
+.top-0    { top: 0 !important; }
+.top-50   { top: 50% !important; }
+.top-100  { top: 100% !important; }
+.bottom-0 { bottom: 0 !important; }
+.bottom-50{ bottom: 50% !important; }
+.bottom-100{ bottom: 100% !important; }
+.start-0  { left: 0 !important; }
+.start-50 { left: 50% !important; }
+.start-100{ left: 100% !important; }
+.end-0    { right: 0 !important; }
+.end-50   { right: 50% !important; }
+.end-100  { right: 100% !important; }
+
+.translate-middle {
+  transform: translate(-50%, -50%) !important;
+}
+.translate-middle-x {
+  transform: translateX(-50%) !important;
+}
+.translate-middle-y {
+  transform: translateY(-50%) !important;
+}
+
+// ============================================================
+// OVERFLOW
+// ============================================================
+.overflow-auto   { overflow: auto !important; }
+.overflow-hidden { overflow: hidden !important; }
+.overflow-scroll { overflow: scroll !important; }
+.overflow-visible{ overflow: visible !important; }
+.overflow-x-auto { overflow-x: auto !important; }
+.overflow-y-auto { overflow-y: auto !important; }
+.overflow-x-hidden{ overflow-x: hidden !important; }
+.overflow-y-hidden{ overflow-y: hidden !important; }
+
+// ============================================================
+// TEXT
+// ============================================================
+.text-start   { text-align: left !important; }
+.text-center  { text-align: center !important; }
+.text-end     { text-align: right !important; }
+.text-muted   { opacity: 0.65; }
+.text-truncate{ overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.text-nowrap  { white-space: nowrap !important; }
+.text-lowercase { text-transform: lowercase !important; }
+.text-uppercase { text-transform: uppercase !important; }
+.text-capitalize { text-transform: capitalize !important; }
+
+@each $bp, $val in $breakpoints {
+  @media (min-width: $val) {
+    .text-#{$bp}-start   { text-align: left !important; }
+    .text-#{$bp}-center  { text-align: center !important; }
+    .text-#{$bp}-end     { text-align: right !important; }
+  }
+}
+
+// ============================================================
+// TYPOGRAPHY
+// ============================================================
+.fw-light   { font-weight: 300 !important; }
+.fw-normal  { font-weight: 400 !important; }
+.fw-medium  { font-weight: 500 !important; }
+.fw-semibold{ font-weight: 600 !important; }
+.fw-bold    { font-weight: 700 !important; }
+
+.fs-xs   { font-size: 0.75rem !important; }
+.fs-sm   { font-size: 0.875rem !important; }
+.fs-base { font-size: 1rem !important; }
+.fs-lg   { font-size: 1.125rem !important; }
+.fs-xl   { font-size: 1.25rem !important; }
+.fs-2xl  { font-size: 1.5rem !important; }
+.fs-3xl  { font-size: 1.875rem !important; }
+
+.lh-1     { line-height: 1 !important; }
+.lh-sm    { line-height: 1.25 !important; }
+.lh-base  { line-height: 1.5 !important; }
+.lh-lg    { line-height: 1.75 !important; }
+
+.text-decoration-none { text-decoration: none !important; }
+.text-decoration-underline { text-decoration: underline !important; }
+
+// ============================================================
+// OPACITY
+// ============================================================
+.opacity-0   { opacity: 0 !important; }
+.opacity-25  { opacity: 0.25 !important; }
+.opacity-50  { opacity: 0.5 !important; }
+.opacity-75  { opacity: 0.75 !important; }
+.opacity-100 { opacity: 1 !important; }
+
+// ============================================================
+// CURSOR
+// ============================================================
+.cursor-pointer  { cursor: pointer !important; }
+.cursor-default  { cursor: default !important; }
+.cursor-move     { cursor: move !important; }
+.cursor-not-allowed { cursor: not-allowed !important; }
+
+// ============================================================
+// POINTER EVENTS
+// ============================================================
+.pointer-events-none { pointer-events: none !important; }
+.pointer-events-auto { pointer-events: auto !important; }
+
+// ============================================================
+// USER SELECT
+// ============================================================
+.user-select-all    { user-select: all !important; }
+.user-select-auto   { user-select: auto !important; }
+.user-select-none   { user-select: none !important; }
+
+// ============================================================
+// VISIBILITY / SCREEN READER
+// ============================================================
+.visible   { visibility: visible !important; }
+.invisible { visibility: hidden !important; }
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}

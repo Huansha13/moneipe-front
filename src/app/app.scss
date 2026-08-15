@@ -1,0 +1,34 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-sidenav {
+  width: 240px;
+
+  .avatar {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: white;
+  }
+
+  mat-nav-list .active {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .badge {
+    background: #e0e0e0;
+  }
+
+  .avatar-small {
+    background: #e0e0e0;
+  }
+}
+
+.mode-badge {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.placeholder-card {
+  background: rgba(0, 0, 0, 0.04);
+}
