@@ -7,28 +7,12 @@
 .app-sidenav {
   width: 240px;
 
-  .avatar {
-    background: linear-gradient(135deg, #7c3aed, #4f46e5);
-    color: white;
-  }
-
   mat-nav-list .active {
-    background: rgba(0, 0, 0, 0.04);
+    background-color: var(--mat-sys-secondary-container);
   }
 
   .badge {
-    background: #e0e0e0;
+    background-color: var(--mat-sys-primary);
+    color: var(--mat-sys-on-primary);
   }
-
-  .avatar-small {
-    background: #e0e0e0;
-  }
-}
-
-.mode-badge {
-  background: rgba(0, 0, 0, 0.04);
-}
-
-.placeholder-card {
-  background: rgba(0, 0, 0, 0.04);
 }

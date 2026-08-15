@@ -6,6 +6,7 @@ import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { ResponsiveService } from './shared/services/responsive.service';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { ResponsiveService } from './shared/services/responsive.service';
     MatIconModule,
     MatListModule,
     MatButtonModule,
+    MatCardModule
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

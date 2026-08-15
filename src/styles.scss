@@ -1,13 +1,12 @@
 @use '@angular/material' as mat;
 @use 'styles/utilities';
+@use 'styles/colors';
 
 html {
+  color-scheme: light dark;
   @include mat.theme((
-    color: (
-      primary: mat.$azure-palette,
-      tertiary: mat.$green-palette,
-    ),
-    density: 0,
+    color: mat.$violet-palette,
+    density: 0
   ));
 }
 

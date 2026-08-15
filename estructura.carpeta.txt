@@ -1,0 +1,49 @@
+src/
+└── app/
+    ├── core/                         # 1. NÚCLEO: Lógica de una sola instancia
+    │   ├── auth/                     # Integración con Keycloak (AuthService, AuthGuard)
+    │   ├── layout/                   # Estructura base de la app
+    │   │   ├── sidebar/              # SidebarComponent
+    │   │   └── header/               # HeaderComponent
+    │   └── interceptors/             # Interceptores HTTP (Tokens, manejo de errores)
+    │
+    ├── shared/                       # 2. COMPARTIDO: UI y lógica reutilizable
+    │   ├── ui/                       # Componentes visuales puros ("Dumb components")
+    │   │   ├── stat-card/            # Tarjeta de KPIs (Patrimonio, Saldo)
+    │   │   ├── transaction-modal/    # Modal para nueva transacción
+    │   │   └── empty-state/          # UI para cuando no hay datos
+    │   ├── pipes/                    # Transformaciones de datos
+    │   │   └── format-currency.pipe.ts # Para dar formato al dinero según idioma/moneda
+    │   └── models/                   # Interfaces TS idénticas a tu BD
+    │       ├── user.model.ts         # Esquema usuarios
+    │       ├── finance.model.ts      # Esquema finanzas (Cuenta, Transaccion, Deuda)
+    │       └── investment.model.ts   # Esquema inversiones (Activo, Portafolio)
+    │
+    ├── features/                     # 3. FUNCIONALIDADES: Páginas y vistas (Lazy Loaded)
+    │   │
+    │   ├── dashboard/                # Vista principal combinada
+    │   │   ├── dashboard.component.ts
+    │   │   └── components/           # Gráficos resumen, tablas cortas
+    │   │
+    │   ├── finances/                 # Domina el esquema FINANZAS
+    │   │   ├── finances.routes.ts
+    │   │   ├── accounts/             # Vista de Cuentas (Bancos, Cripto, etc.)
+    │   │   ├── transactions/         # Historial completo de Transacciones
+    │   │   ├── budgets/              # Gestión de Presupuestos
+    │   │   └── debts/                # Gestión de Deudas
+    │   │
+    │   ├── investments/              # Domina el esquema INVERSIONES
+    │   │   ├── investments.routes.ts
+    │   │   ├── portfolio/            # Resumen del portafolio general
+    │   │   └── assets/               # Tabla detallada de Activos_Inversion
+    │   │
+    │   ├── groups/                   # Domina esquema USUARIOS (Grupos)
+    │   │   ├── groups.routes.ts
+    │   │   └── group-management/     # Grupos, roles y transacciones compartidas
+    │   │
+    │   └── profile/                  # Domina esquema USUARIOS (Identidad)
+    │       ├── profile.routes.ts
+    │       └── user-settings/        # Preferencias de idioma, zona horaria y datos Keycloak
+    │
+    ├── app.component.ts              # Componente Raíz (Contiene <router-outlet>)
+    └── app.routes.ts                 # Configuración principal de rutas

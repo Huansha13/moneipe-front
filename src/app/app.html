@@ -7,9 +7,9 @@
   >
     <div class="d-flex flex-column h-100">
       <mat-toolbar class="position-sticky top-0 border-bottom z-1">
-        <div class="d-flex align-items-center gap-3">
-          <div class="avatar rounded-1 p-2 d-flex align-items-center justify-content-center fs-xs fw-bold flex-shrink-0">A</div>
-          <span class="fw-semibold fs-sm">Acme Inc</span>
+        <div class="d-flex align-items-center justify-content-center w-100 gap-1">
+          <mat-icon>wallet</mat-icon>
+          <div class="fw-semibold">moneipe</div>
         </div>
       </mat-toolbar>
       <div class="flex-1">
@@ -27,30 +27,28 @@
           }
         </mat-nav-list>
       </div>
-
-      <div class="border-top pt-2">
-        <mat-list-item>
-          <div matListItemIcon class="avatar-small rounded-circle w-7 h-7 d-flex align-items-center justify-content-center fs-xs fw-semibold">JD</div>
-          <span matListItemTitle>John Doe</span>
-        </mat-list-item>
-      </div>
+      <div class="fs-xs text-muted py-4 text-center">V. 1.0.0</div>
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar class="position-sticky top-0 border-bottom z-1">
-      <button mat-icon-button (click)="toggleSidenav()">
-        <mat-icon>menu</mat-icon>
+    <mat-toolbar class="position-sticky top-0 border-bottom z-1 gap-2 px-2" style="margin: 0 !important;">
+      <button mat-icon-button class="border" (click)="toggleSidenav()">
+        <mat-icon>menu_open</mat-icon>
       </button>
+
       <span>Dashboard</span>
       <span class="flex-1"></span>
-      <span class="mode-badge fs-xs px-2 py-1 rounded-1">{{ responsive.isMobile() ? 'Mobile' : 'Desktop' }}</span>
+      <button mat-icon-button>
+        <mat-icon>account_circle</mat-icon>
+      </button>
     </mat-toolbar>
-
-    <div class="p-4 d-flex flex-column gap-4 flex-1 overflow-y-auto">
-      <div class="placeholder-card rounded-2 min-h-48 flex-1">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
+    <mat-card class="mx-2" appearance="raised">
+      <mat-card-content>
+        <div class="min-h-48">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </mat-sidenav-content>
 </mat-sidenav-container>
