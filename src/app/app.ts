@@ -1,13 +1,14 @@
 import {Component, signal, inject, OnInit} from '@angular/core';
 import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
-import { ResponsiveService } from './shared/services/responsive.service';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule, MatIconRegistry} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {MatButtonModule} from '@angular/material/button';
+import {ResponsiveService} from './shared/services/responsive.service';
 import {MatCardModule} from '@angular/material/card';
 import {filter, map} from 'rxjs';
+import {NavItem, PerfilItem} from './shared/models/nav-items.model';
 
 @Component({
   selector: 'app-root',
@@ -31,12 +32,22 @@ export class App implements OnInit {
   sidenavOpened = signal(true);
   activeRouteName = signal('');
 
-  navItems = [
-    { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
-    { icon: 'account_balance', label: 'Cuentas y Finanzas', route: '/accounts' },
-    { icon: 'trending_up', label: 'Inversiones', route: '/investments' },
-    { icon: 'group', label: 'Mis Grupos', badge: '3', route: '/groups' },
+  navItems: NavItem[] = [
+    {icon: 'dashboard', label: 'Dashboard', route: '/dashboard'},
+    {icon: 'account_balance', label: 'Cuentas y Finanzas', route: '/accounts'},
+    {icon: 'trending_up', label: 'Inversiones', route: '/investments'},
+    {icon: 'group', label: 'Mis Grupos', badge: '3', route: '/groups'},
   ];
+
+  perfilItem: PerfilItem = {
+    navItem:
+      {
+        icon: 'account_circle',
+        label: 'Yefer Huansha L.',
+        route: '/user-account'
+      },
+    email: 'yeferh13@gmail.com'
+  };
 
   constructor() {
     const registry = inject(MatIconRegistry);
@@ -56,10 +67,15 @@ export class App implements OnInit {
       filter(event => event instanceof NavigationEnd),
       map(event => event as NavigationEnd)
     ).subscribe((event) => {
-      const rawName = event.urlAfterRedirects?.replaceAll('/', ' ').trim() || '';
+      const name = event.urlAfterRedirects?.trim() || '';
 
-      const firstLetter = rawName.charAt(0).toUpperCase();
-      this.activeRouteName.set(`${firstLetter}${rawName.slice(1)}`);
+      if (this.perfilItem?.navItem?.route === name) {
+        this.activeRouteName.set('Cuenta de Usuario');
+        return;
+      }
+
+      const item = this.navItems.find(item => item.route === name);
+      this.activeRouteName.set(item?.label || '');
     });
   }
 }

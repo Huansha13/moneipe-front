@@ -29,14 +29,14 @@
         </mat-nav-list>
       </div>
       <mat-nav-list class="border-top">
-        <mat-list-item [routerLink]="'/account'"
+        <mat-list-item [routerLink]="perfilItem.navItem.route"
                        routerLinkActive="active"
                        (click)="responsive.isMobile() && sidenavOpened.set(false);"
                        onKeyUp="">
-          <mat-icon matListItemIcon>account_circle</mat-icon>
+          <mat-icon matListItemIcon>{{ perfilItem.navItem.icon }}</mat-icon>
           <div matListItemTitle class="d-flex flex-column">
-            <span>Yefer Huansha L.</span>
-            <span class="fs-xs text-muted">{{'yeferh13@gmail.com'}}</span>
+            <span>{{ perfilItem.navItem.label }}</span>
+            <span class="fs-xs text-muted">{{perfilItem.email}}</span>
           </div>
         </mat-list-item>
       </mat-nav-list>
