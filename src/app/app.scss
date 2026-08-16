@@ -8,11 +8,15 @@
   width: 240px;
 
   mat-nav-list .active {
-    background-color: var(--mat-sys-secondary-container);
+    background-color: var(--mat-sys-background);
   }
 
   .badge {
     background-color: var(--mat-sys-primary);
     color: var(--mat-sys-on-primary);
   }
+}
+
+.bg-sidenav {
+  background-color: var(--mat-sys-secondary-container);
 }
