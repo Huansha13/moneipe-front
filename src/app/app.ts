@@ -9,6 +9,7 @@ import {ResponsiveService} from './shared/services/responsive.service';
 import {MatCardModule} from '@angular/material/card';
 import {filter, map} from 'rxjs';
 import {NavItem, PerfilItem} from './shared/models/nav-items.model';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ import {NavItem, PerfilItem} from './shared/models/nav-items.model';
     MatButtonModule,
     MatCardModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
