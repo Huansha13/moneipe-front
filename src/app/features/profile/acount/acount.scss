@@ -1,17 +1,11 @@
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #111827;
-  color: white;
-  border-radius: 18px;
-  font-size: 30px;
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+  font-size: 20px;
   font-weight: 600;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-.value {
-  font-weight: 500;
 }

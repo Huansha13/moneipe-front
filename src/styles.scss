@@ -5,10 +5,17 @@
 html {
   color-scheme: light;
   @include mat.theme((
-    color: mat.$azure-palette,
+    color: mat.$blue-palette,
     typography: Inter,
     density: 0
   ));
+
+  --mat-sys-primary: #0f172a;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #e2e8f0;
+  --mat-sys-on-primary-container: #0f172a;
+  --mat-sys-on-surface: #0f172a;
+  --mat-sys-on-surface-variant: #0f172a;
 }
 
 html, body {

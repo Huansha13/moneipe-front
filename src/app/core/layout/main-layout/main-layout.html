@@ -1,0 +1,69 @@
+<mat-sidenav-container class="h-100">
+  <mat-sidenav
+    [mode]="responsive.isMobile() ? 'over' : 'side'"
+    [opened]="sidenavOpened()"
+    (closedStart)="sidenavOpened.set(false)"
+    class="app-sidenav d-flex flex-column bg-sidenav p-2"
+  >
+    <div class="d-flex flex-column h-100">
+      <mat-toolbar class="position-sticky top-0 z-1 bg-sidenav">
+        <div class="d-flex align-items-center justify-content-center w-100 gap-1">
+          <mat-icon>wallet</mat-icon>
+          <div class="fw-semibold">moneipe</div>
+        </div>
+      </mat-toolbar>
+      <div class="flex-1">
+        <mat-nav-list class="pt-2">
+          @for (item of navItems; track item.label) {
+            <mat-list-item [routerLink]="item.route"
+                            routerLinkActive="active"
+                           (click)="responsive.isMobile() && sidenavOpened.set(false);"
+                           onKeyUp="">
+              <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+              <span matListItemTitle>{{ item.label }}</span>
+              @if (item.badge) {
+                <span matListItemMeta class="badge rounded-pill px-2 py-0 fs-xs fw-semibold">{{ item.badge }}</span>
+              }
+            </mat-list-item>
+          }
+        </mat-nav-list>
+      </div>
+      <mat-nav-list class="border-top">
+        <mat-list-item routerLink="/user-account"
+                       routerLinkActive="active"
+                       (click)="responsive.isMobile() && sidenavOpened.set(false);"
+                       onKeyUp="">
+          <mat-icon matListItemIcon>account_circle</mat-icon>
+          <div matListItemTitle class="d-flex flex-column">
+            <span>{{ authService.profile().firstNameShort }} {{ authService.profile().lastNameShort }}</span>
+            <span class="fs-xs text-muted">{{ authService.profile().email }}</span>
+          </div>
+        </mat-list-item>
+      </mat-nav-list>
+      <div class="fs-xs text-muted py-4 text-center">V. 1.0.0</div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="position-sticky top-0 z-1 gap-2 px-2" style="margin: 0 !important;">
+      <button mat-icon-button class="border" (click)="toggleSidenav()">
+        <mat-icon>menu_open</mat-icon>
+      </button>
+
+      <span class="fs-xl fw-bold">{{activeRouteName()}}</span>
+      <span class="flex-1"></span>
+
+      <button mat-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar sesión
+      </button>
+    </mat-toolbar>
+    <mat-card class="mx-2" appearance="outlined">
+      <mat-card-content>
+        <div class="min-h-48">
+          <router-outlet></router-outlet>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>
