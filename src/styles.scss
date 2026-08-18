@@ -5,7 +5,7 @@
 html {
   color-scheme: light;
   @include mat.theme((
-    color: mat.$blue-palette,
+    color: mat.$azure-palette,
     typography: Inter,
     density: 0
   ));

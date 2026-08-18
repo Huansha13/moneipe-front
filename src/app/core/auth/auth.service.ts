@@ -38,11 +38,13 @@ export class AuthService {
   readonly profile = signal<UserProfile>(EMPTY_PROFILE);
 
   async loadUserProfile() {
-    if (!this.keycloak.authenticated || this.keycloak.profile) {
+    if (!this.keycloak.authenticated) {
       this.buildProfile();
       return;
     }
-    await this.keycloak.loadUserProfile();
+    if (!this.keycloak.profile) {
+      await this.keycloak.loadUserProfile();
+    }
     this.buildProfile();
   }
 

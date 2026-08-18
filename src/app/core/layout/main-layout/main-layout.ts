@@ -6,6 +6,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatMenuModule} from '@angular/material/menu';
 import {filter, map} from 'rxjs';
 import {ResponsiveService} from '../../../shared/services/responsive.service';
 import {AuthService} from '../../auth/auth.service';
@@ -21,6 +22,7 @@ import {NavItem} from '../../../shared/models/nav-items.model';
     MatListModule,
     MatButtonModule,
     MatCardModule,
+    MatMenuModule,
     RouterLink,
     RouterLinkActive,
   ],
@@ -42,6 +44,7 @@ export class MainLayout implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.setActiveRoute(this.router.url);
     this.listenToRouteChanges();
   }
 
@@ -58,15 +61,16 @@ export class MainLayout implements OnInit {
       filter(event => event instanceof NavigationEnd),
       map(event => event as NavigationEnd)
     ).subscribe((event) => {
-      const name = event.urlAfterRedirects?.trim() || '';
-
-      if (name === '/user-account') {
-        this.activeRouteName.set('Cuenta de Usuario');
-        return;
-      }
-
-      const item = this.navItems.find(item => item.route === name);
-      this.activeRouteName.set(item?.label || '');
+      this.setActiveRoute(event.urlAfterRedirects?.trim() || '');
     });
+  }
+
+  private setActiveRoute(url: string) {
+    if (url === '/user-account') {
+      this.activeRouteName.set('Cuenta de Usuario');
+      return;
+    }
+    const item = this.navItems.find(item => item.route === url);
+    this.activeRouteName.set(item?.label || '');
   }
 }

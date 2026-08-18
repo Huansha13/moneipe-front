@@ -18,7 +18,7 @@
             <mat-list-item [routerLink]="item.route"
                             routerLinkActive="active"
                            (click)="responsive.isMobile() && sidenavOpened.set(false);"
-                           onKeyUp="">
+                           onKeyUp="" class="my-2">
               <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
               <span matListItemTitle>{{ item.label }}</span>
               @if (item.badge) {
@@ -28,37 +28,49 @@
           }
         </mat-nav-list>
       </div>
-      <mat-nav-list class="border-top">
-        <mat-list-item routerLink="/user-account"
-                       routerLinkActive="active"
-                       (click)="responsive.isMobile() && sidenavOpened.set(false);"
-                       onKeyUp="">
-          <mat-icon matListItemIcon>account_circle</mat-icon>
-          <div matListItemTitle class="d-flex flex-column">
-            <span>{{ authService.profile().firstNameShort }} {{ authService.profile().lastNameShort }}</span>
-            <span class="fs-xs text-muted">{{ authService.profile().email }}</span>
-          </div>
-        </mat-list-item>
-      </mat-nav-list>
-      <div class="fs-xs text-muted py-4 text-center">V. 1.0.0</div>
     </div>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar class="position-sticky top-0 z-1 gap-2 px-2" style="margin: 0 !important;">
-      <button mat-icon-button class="border" (click)="toggleSidenav()">
+    <mat-toolbar class="position-sticky top-0 z-1 gap-2 p-3" style="margin: 0 !important;">
+      <button mat-icon-button (click)="toggleSidenav()">
         <mat-icon>menu_open</mat-icon>
       </button>
 
       <span class="fs-xl fw-bold">{{activeRouteName()}}</span>
       <span class="flex-1"></span>
-
-      <button mat-button (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        Cerrar sesión
-      </button>
+      <span class="fs-xs text-muted text-center pe-3">V. 1.0.0</span>
+      <div>
+        <mat-nav-list>
+          <mat-list-item [matMenuTriggerFor]="userMenu"
+                         class="border"
+                         (click)="responsive.isMobile() && sidenavOpened.set(false);"
+                         onKeyUp="">
+            <mat-icon matListItemIcon>account_circle</mat-icon>
+            <div matListItemTitle class="d-flex flex-column">
+              <span>{{ authService.profile().firstNameShort }} {{ authService.profile().lastNameShort }}</span>
+            </div>
+          </mat-list-item>
+        </mat-nav-list>
+        <mat-menu #userMenu="matMenu" xPosition="before">
+          <mat-nav-list class="p-2">
+            <mat-list-item routerLinkActive="active" routerLink="/user-account">
+              <mat-icon matListItemIcon>person</mat-icon>
+              <div matListItemTitle class="d-flex flex-column">
+                <span>Mi cuenta</span>
+                <span class="fs-xs text-muted">{{ authService.profile().email }}</span>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item (click)="logout()" onKeyUp="">
+              <mat-icon matListItemIcon>logout</mat-icon>
+              <div matListItemTitle>Cerrar sesión</div>
+            </mat-list-item>
+          </mat-nav-list>
+        </mat-menu>
+      </div>
     </mat-toolbar>
-    <mat-card class="mx-2" appearance="outlined">
+    <mat-card class="m-3 border" appearance="outlined">
       <mat-card-content>
         <div class="min-h-48">
           <router-outlet></router-outlet>
