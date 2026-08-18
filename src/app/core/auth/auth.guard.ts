@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot } from '@ang
 import Keycloak from 'keycloak-js';
 import { AuthGuardData, createAuthGuard } from 'keycloak-angular';
 import { AuthService } from './auth.service';
+import { LanguageService } from '../../shared/services/language.service';
 
 const checkUserAuthenticated = async (
   _route: ActivatedRouteSnapshot,
@@ -13,7 +14,8 @@ const checkUserAuthenticated = async (
 
   if (!authenticated) {
     const keycloak = inject(Keycloak);
-    await keycloak.login();
+    const language = inject(LanguageService);
+    await keycloak.login({ locale: language.currentLang() });
     return false;
   }
 

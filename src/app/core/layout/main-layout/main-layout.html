@@ -9,18 +9,18 @@
       <mat-toolbar class="position-sticky top-0 z-1 bg-sidenav">
         <div class="d-flex align-items-center justify-content-center w-100 gap-1">
           <mat-icon>wallet</mat-icon>
-          <div class="fw-semibold">moneipe</div>
+          <div class="fw-semibold">{{ 'APP.NAME' | translate }}</div>
         </div>
       </mat-toolbar>
       <div class="flex-1">
         <mat-nav-list class="pt-2">
-          @for (item of navItems; track item.label) {
+          @for (item of navItems; track item.route) {
             <mat-list-item [routerLink]="item.route"
                             routerLinkActive="active"
                            (click)="responsive.isMobile() && sidenavOpened.set(false);"
                            onKeyUp="" class="my-2">
               <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-              <span matListItemTitle>{{ item.label }}</span>
+              <span matListItemTitle>{{ item.labelKey | translate }}</span>
               @if (item.badge) {
                 <span matListItemMeta class="badge rounded-pill px-2 py-0 fs-xs fw-semibold">{{ item.badge }}</span>
               }
@@ -39,7 +39,7 @@
 
       <span class="fs-xl fw-bold">{{activeRouteName()}}</span>
       <span class="flex-1"></span>
-      <span class="fs-xs text-muted text-center pe-3">V. 1.0.0</span>
+      <span class="fs-xs text-muted text-center pe-3">{{ 'APP.VERSION' | translate }}</span>
       <div>
         <mat-nav-list>
           <mat-list-item [matMenuTriggerFor]="userMenu"
@@ -52,22 +52,6 @@
             </div>
           </mat-list-item>
         </mat-nav-list>
-        <mat-menu #userMenu="matMenu" xPosition="before">
-          <mat-nav-list class="p-2">
-            <mat-list-item routerLinkActive="active" routerLink="/user-account">
-              <mat-icon matListItemIcon>person</mat-icon>
-              <div matListItemTitle class="d-flex flex-column">
-                <span>Mi cuenta</span>
-                <span class="fs-xs text-muted">{{ authService.profile().email }}</span>
-              </div>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item (click)="logout()" onKeyUp="">
-              <mat-icon matListItemIcon>logout</mat-icon>
-              <div matListItemTitle>Cerrar sesión</div>
-            </mat-list-item>
-          </mat-nav-list>
-        </mat-menu>
       </div>
     </mat-toolbar>
     <mat-card class="m-3 border" appearance="outlined">
@@ -79,3 +63,22 @@
     </mat-card>
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+<mat-menu #userMenu="matMenu" xPosition="before">
+  <mat-nav-list class="p-2">
+    <mat-list-item routerLinkActive="active" routerLink="/user-account">
+      <mat-icon matListItemIcon>person</mat-icon>
+      <div matListItemTitle class="d-flex flex-column">
+        <span>{{ 'MENU.MY_ACCOUNT' | translate }}</span>
+        <span class="fs-xs text-muted">{{ authService.profile().email }}</span>
+      </div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item (click)="logout()" onKeyUp="">
+      <mat-icon matListItemIcon>logout</mat-icon>
+      <div matListItemTitle>{{ 'MENU.LOGOUT' | translate }}</div>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <app-language-switcher [listMode]="true"/>
+  </mat-nav-list>
+</mat-menu>

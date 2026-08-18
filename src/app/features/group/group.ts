@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-group',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './group.html',
   styleUrl: './group.scss',
 })
-export class Group {
-
-}
+export class Group {}

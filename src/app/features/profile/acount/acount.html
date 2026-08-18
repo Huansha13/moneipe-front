@@ -9,7 +9,7 @@
 
   @if (!editing()) {
     <button mat-stroked-button color="primary" (click)="editing.set(true)">
-      <mat-icon class="me-1">edit</mat-icon> Editar
+      <mat-icon class="me-1">edit</mat-icon> {{ 'ACCOUNT.EDIT' | translate }}
     </button>
   } @else {
     <div class="d-flex gap-2">
@@ -19,9 +19,9 @@
         } @else {
           <mat-icon class="me-1">save</mat-icon>
         }
-        Guardar
+        {{ 'ACCOUNT.SAVE' | translate }}
       </button>
-      <button mat-stroked-button (click)="cancel()">Cancelar</button>
+      <button mat-stroked-button (click)="cancel()">{{ 'ACCOUNT.CANCEL' | translate }}</button>
     </div>
   }
 </div>
@@ -29,19 +29,19 @@
 <mat-divider></mat-divider>
 
 <div class="mt-4">
-  <h3 class="fw-semibold mb-4">Información personal</h3>
+  <h3 class="fw-semibold mb-4">{{ 'ACCOUNT.PERSONAL_INFO' | translate }}</h3>
   <form [formGroup]="form" class="d-flex flex-column gap-3">
     <div class="row">
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Nombres</mat-label>
+          <mat-label>{{ 'ACCOUNT.FIRST_NAME' | translate }}</mat-label>
           <input matInput formControlName="firstName">
           <mat-icon matPrefix>person</mat-icon>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Apellidos</mat-label>
+          <mat-label>{{ 'ACCOUNT.LAST_NAME' | translate }}</mat-label>
           <input matInput formControlName="lastName">
           <mat-icon matPrefix>person_outline</mat-icon>
         </mat-form-field>
@@ -50,7 +50,7 @@
     <div class="row">
       <div class="col-md-12">
         <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Correo electrónico</mat-label>
+          <mat-label>{{ 'ACCOUNT.EMAIL' | translate }}</mat-label>
           <input matInput type="email" formControlName="email">
           <mat-icon matPrefix>mail</mat-icon>
         </mat-form-field>
@@ -62,19 +62,19 @@
 <mat-divider class="my-4"></mat-divider>
 
 <div>
-  <h3 class="fw-semibold mb-4">Cuenta</h3>
+  <h3 class="fw-semibold mb-4">{{ 'ACCOUNT.ACCOUNT' | translate }}</h3>
   <div class="row">
     <div class="col-md-6">
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Usuario</mat-label>
+        <mat-label>{{ 'ACCOUNT.USERNAME' | translate }}</mat-label>
         <input matInput [value]="authService.profile().username" disabled>
         <mat-icon matPrefix>alternate_email</mat-icon>
       </mat-form-field>
     </div>
     <div class="col-md-6">
       <mat-form-field appearance="outline" class="w-100">
-        <mat-label>Email verificado</mat-label>
-        <input matInput [value]="authService.profile().emailVerified ? 'Sí' : 'No'" disabled>
+        <mat-label>{{ 'ACCOUNT.EMAIL_VERIFIED' | translate }}</mat-label>
+        <input matInput [value]="authService.profile().emailVerified ? ('ACCOUNT.YES' | translate) : ('ACCOUNT.NO' | translate)" disabled>
         <mat-icon matPrefix>verified</mat-icon>
       </mat-form-field>
     </div>

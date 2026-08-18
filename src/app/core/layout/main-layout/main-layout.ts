@@ -1,16 +1,20 @@
-import {Component, signal, inject, OnInit} from '@angular/core';
-import {NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
-import {MatListModule} from '@angular/material/list';
-import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from '@angular/material/card';
-import {MatMenuModule} from '@angular/material/menu';
-import {filter, map} from 'rxjs';
-import {ResponsiveService} from '../../../shared/services/responsive.service';
-import {AuthService} from '../../auth/auth.service';
-import {NavItem} from '../../../shared/models/nav-items.model';
+import { Component, signal, inject, OnInit } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslateService } from '@ngx-translate/core';
+import { filter, map } from 'rxjs';
+import { ResponsiveService } from '../../../shared/services/responsive.service';
+import { AuthService } from '../../auth/auth.service';
+import { LanguageService } from '../../../shared/services/language.service';
+import { NavItem } from '../../../shared/models/nav-items.model';
+import { LanguageSwitcherComponent } from '../../../shared/components/language-switcher/language-switcher';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-main-layout',
@@ -25,6 +29,8 @@ import {NavItem} from '../../../shared/models/nav-items.model';
     MatMenuModule,
     RouterLink,
     RouterLinkActive,
+    TranslatePipe,
+    LanguageSwitcherComponent,
   ],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss'
@@ -32,15 +38,17 @@ import {NavItem} from '../../../shared/models/nav-items.model';
 export class MainLayout implements OnInit {
   public responsive = inject(ResponsiveService);
   public authService = inject(AuthService);
+  public language = inject(LanguageService);
   private readonly router = inject(Router);
+  private readonly translate = inject(TranslateService);
   sidenavOpened = signal(true);
   activeRouteName = signal('');
 
   navItems: NavItem[] = [
-    {icon: 'dashboard', label: 'Dashboard', route: '/dashboard'},
-    {icon: 'account_balance', label: 'Cuentas y Finanzas', route: '/accounts'},
-    {icon: 'trending_up', label: 'Inversiones', route: '/investments'},
-    {icon: 'group', label: 'Mis Grupos', badge: '3', route: '/groups'},
+    { icon: 'dashboard', labelKey: 'NAV.DASHBOARD', route: '/dashboard' },
+    { icon: 'account_balance', labelKey: 'NAV.ACCOUNTS', route: '/accounts' },
+    { icon: 'trending_up', labelKey: 'NAV.INVESTMENTS', route: '/investments' },
+    { icon: 'group', labelKey: 'NAV.MY_GROUPS', badge: '3', route: '/groups' },
   ];
 
   ngOnInit(): void {
@@ -67,10 +75,10 @@ export class MainLayout implements OnInit {
 
   private setActiveRoute(url: string) {
     if (url === '/user-account') {
-      this.activeRouteName.set('Cuenta de Usuario');
+      this.activeRouteName.set(this.translate.instant('NAV.USER_ACCOUNT'));
       return;
     }
     const item = this.navItems.find(item => item.route === url);
-    this.activeRouteName.set(item?.label || '');
+    this.activeRouteName.set(item ? this.translate.instant(item.labelKey!) : '');
   }
 }

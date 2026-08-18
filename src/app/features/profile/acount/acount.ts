@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
@@ -18,6 +19,7 @@ import { AuthService } from '../../../core/auth/auth.service';
     MatIconModule,
     MatDividerModule,
     MatSnackBarModule,
+    TranslatePipe,
   ],
   templateUrl: './acount.html',
   styleUrl: './acount.scss',
@@ -25,6 +27,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 export class Acount implements OnInit {
   authService = inject(AuthService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly translate = inject(TranslateService);
 
   editing = signal(false);
   saving = signal(false);
@@ -66,9 +69,17 @@ export class Acount implements OnInit {
       const raw = this.form.getRawValue();
       await this.authService.updateProfile(raw as { firstName: string; lastName: string; email: string });
       this.editing.set(false);
-      this.snackBar.open('Perfil actualizado', 'Cerrar', { duration: 3000 });
+      this.snackBar.open(
+        this.translate.instant('ACCOUNT.PROFILE_UPDATED'),
+        this.translate.instant('ACCOUNT.CLOSE'),
+        { duration: 3000 }
+      );
     } catch {
-      this.snackBar.open('Error al actualizar el perfil', 'Cerrar', { duration: 3000 });
+      this.snackBar.open(
+        this.translate.instant('ACCOUNT.PROFILE_UPDATE_ERROR'),
+        this.translate.instant('ACCOUNT.CLOSE'),
+        { duration: 3000 }
+      );
     } finally {
       this.saving.set(false);
     }

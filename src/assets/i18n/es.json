@@ -1,0 +1,44 @@
+{
+  "APP": {
+    "NAME": "Moneipe",
+    "VERSION": "V. 1.0.0"
+  },
+  "NAV": {
+    "DASHBOARD": "Dashboard",
+    "ACCOUNTS": "Cuentas y Finanzas",
+    "INVESTMENTS": "Inversiones",
+    "MY_GROUPS": "Mis Grupos",
+    "USER_ACCOUNT": "Cuenta de Usuario"
+  },
+  "MENU": {
+    "MY_ACCOUNT": "Mi cuenta",
+    "LOGOUT": "Cerrar sesión"
+  },
+  "ACCOUNT": {
+    "EDIT": "Editar",
+    "SAVE": "Guardar",
+    "CANCEL": "Cancelar",
+    "PERSONAL_INFO": "Información personal",
+    "FIRST_NAME": "Nombres",
+    "LAST_NAME": "Apellidos",
+    "EMAIL": "Correo electrónico",
+    "ACCOUNT": "Cuenta",
+    "USERNAME": "Usuario",
+    "EMAIL_VERIFIED": "Email verificado",
+    "YES": "Sí",
+    "NO": "No",
+    "PROFILE_UPDATED": "Perfil actualizado",
+    "PROFILE_UPDATE_ERROR": "Error al actualizar el perfil",
+    "CLOSE": "Cerrar"
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard"
+  },
+  "GROUP": {
+    "TITLE": "Grupos"
+  },
+  "LANGUAGE": {
+    "EN": "Inglés",
+    "ES": "Español"
+  }
+}

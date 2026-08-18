@@ -2,6 +2,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Keycloak from 'keycloak-js';
 import { environment } from '../../../environments/environment';
+import { LanguageService } from '../../shared/services/language.service';
 import { firstValueFrom } from 'rxjs';
 
 interface UserProfile {
@@ -34,6 +35,7 @@ const EMPTY_PROFILE: UserProfile = {
 export class AuthService {
   private readonly keycloak = inject(Keycloak);
   private readonly http = inject(HttpClient);
+  private readonly language = inject(LanguageService);
 
   readonly profile = signal<UserProfile>(EMPTY_PROFILE);
 
@@ -66,7 +68,7 @@ export class AuthService {
   }
 
   async login() {
-    await this.keycloak.login();
+    await this.keycloak.login({ locale: this.language.currentLang() });
   }
 
   async logout() {
