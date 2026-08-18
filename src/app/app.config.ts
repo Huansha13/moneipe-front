@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
       initOptions: {
         onLoad: 'check-sso',
         checkLoginIframe: false,
-        redirectUri: window.location.origin,
+        redirectUri: window.location.origin + window.location.pathname,
       },
     }),
     {

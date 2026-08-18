@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import {Component, signal, inject, OnInit, effect} from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -50,6 +50,13 @@ export class MainLayout implements OnInit {
     { icon: 'trending_up', labelKey: 'NAV.INVESTMENTS', route: '/investments' },
     { icon: 'group', labelKey: 'NAV.MY_GROUPS', badge: '3', route: '/groups' },
   ];
+
+  constructor() {
+    effect(() => {
+      this.language.currentLang();
+      this.setActiveRoute(this.router.url);
+    });
+  }
 
   ngOnInit(): void {
     this.setActiveRoute(this.router.url);

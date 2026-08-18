@@ -13,6 +13,7 @@ export class LanguageService {
 
   readonly currentLang = signal<AppLang>(this.getInitialLang());
 
+
   constructor() {
     this.translate.use(this.currentLang());
     document.documentElement.lang = this.currentLang();
@@ -41,6 +42,6 @@ export class LanguageService {
 
   toggleLang() {
     const next: AppLang = this.currentLang() === 'es' ? 'en' : 'es';
-    this.setLang(next);
+    this.setLang(next).then();
   }
 }

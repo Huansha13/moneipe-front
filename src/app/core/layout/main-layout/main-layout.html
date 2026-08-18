@@ -48,7 +48,12 @@
                          onKeyUp="">
             <mat-icon matListItemIcon>account_circle</mat-icon>
             <div matListItemTitle class="d-flex flex-column">
-              <span>{{ authService.profile().firstNameShort }} {{ authService.profile().lastNameShort }}</span>
+              <span>
+                {{ authService.profile().firstNameShort }}
+                @if (!responsive.isMobile()) {
+                  {{ authService.profile().lastNameShort }}
+                }
+              </span>
             </div>
           </mat-list-item>
         </mat-nav-list>
@@ -74,11 +79,11 @@
       </div>
     </mat-list-item>
     <mat-divider></mat-divider>
+    <app-language-switcher [listMode]="true"/>
+    <mat-divider></mat-divider>
     <mat-list-item (click)="logout()" onKeyUp="">
       <mat-icon matListItemIcon>logout</mat-icon>
       <div matListItemTitle>{{ 'MENU.LOGOUT' | translate }}</div>
     </mat-list-item>
-    <mat-divider></mat-divider>
-    <app-language-switcher [listMode]="true"/>
   </mat-nav-list>
 </mat-menu>
