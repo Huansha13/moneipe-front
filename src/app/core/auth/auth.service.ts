@@ -77,6 +77,26 @@ export class AuthService {
     await this.keycloak.logout({ redirectUri: window.location.origin });
   }
 
+  async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+    await this.keycloak.updateToken(30);
+
+    const userId = this.keycloak.subject;
+
+    await firstValueFrom(
+      this.http.put(
+        `${environment.keycloak.url}/admin/realms/${environment.keycloak.realm}/users/${userId}/reset-password`,
+        {
+          type: 'password',
+          value: newPassword,
+          temporary: false,
+        },
+        {
+          headers: { Authorization: `Bearer ${this.keycloak.token}` },
+        }
+      )
+    );
+  }
+
   hasRole(role: string): boolean {
     return this.keycloak.hasRealmRole(role);
   }

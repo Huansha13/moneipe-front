@@ -30,6 +30,13 @@
     "NO": "No",
     "PROFILE_UPDATED": "Profile updated",
     "PROFILE_UPDATE_ERROR": "Error updating profile",
+    "CHANGE_PASSWORD": "Change password",
+    "CURRENT_PASSWORD": "Current password",
+    "NEW_PASSWORD": "New password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "PASSWORD_CHANGED": "Password updated successfully",
+    "PASSWORD_CHANGE_ERROR": "Error updating password. Please verify your current password is correct.",
+    "PASSWORD_MISMATCH": "Passwords do not match",
     "CLOSE": "Close"
   },
   "DASHBOARD": {
@@ -49,8 +56,17 @@
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
     "ACTIONS": "Actions",
+    "CONFIRM": "Delete",
+    "CONFIRM_DELETE_TITLE": "Confirm deletion",
+    "CONFIRM_DELETE_MESSAGE": "Are you sure you want to delete user {{username}}? This action cannot be undone.",
+    "USER_DELETED": "User deleted successfully",
+    "USER_DELETE_ERROR": "Error deleting user",
+    "USER_ENABLED": "User enabled",
+    "USER_DISABLED": "User disabled",
+    "USER_UPDATE_ERROR": "Error updating user",
     "FORM": {
       "TITLE": "Register New User",
+      "EDIT_TITLE": "Edit User",
       "REQUIRED": "This field is required",
       "MIN_LENGTH": "Minimum 3 characters",
       "INVALID_EMAIL": "Invalid email address",
@@ -60,7 +76,10 @@
       "PASSWORD_MIN_LENGTH": "Minimum 8 characters",
       "PASSWORD_UPPERCASE": "At least one uppercase",
       "PASSWORD_LOWERCASE": "At least one lowercase",
-      "PASSWORD_SPECIAL_CHAR": "At least one special character"
+      "PASSWORD_SPECIAL_CHAR": "At least one special character",
+      "USER_CREATED": "User created successfully",
+      "USER_UPDATED": "User updated successfully",
+      "USER_CREATE_ERROR": "Error creating user"
     }
   },
   "LANGUAGE": {

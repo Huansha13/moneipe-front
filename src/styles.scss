@@ -3,19 +3,28 @@
 @use 'styles/colors';
 
 html {
-  color-scheme: light;
+  color-scheme: light dark;
   @include mat.theme((
     color: mat.$azure-palette,
     typography: Inter,
     density: 0
   ));
-
-  --mat-sys-primary: #0f172a;
+/*
+  !* 1. Color Primario (Ajusta el #0f172a a un azul si quieres que resalte más) *!
+  --mat-sys-primary: #0f172a; !* Prueba con #0284c7 si quieres un azul claro *!
   --mat-sys-on-primary: #ffffff;
   --mat-sys-primary-container: #e2e8f0;
   --mat-sys-on-primary-container: #0f172a;
+
+  !* 2. Variables FALTANTES para que color="warn" funcione *!
+  --mat-sys-error: #dc2626; !* Rojo para el botón eliminar *!
+  --mat-sys-on-error: #ffffff;
+  --mat-sys-error-container: #fee2e2;
+  --mat-sys-on-error-container: #7f1d1d;
+
+  !* 3. Colores de superficie *!
   --mat-sys-on-surface: #0f172a;
-  --mat-sys-on-surface-variant: #0f172a;
+  --mat-sys-on-surface-variant: #0f172a;*/
 }
 
 html, body {

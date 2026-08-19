@@ -30,6 +30,13 @@
     "NO": "No",
     "PROFILE_UPDATED": "Perfil actualizado",
     "PROFILE_UPDATE_ERROR": "Error al actualizar el perfil",
+    "CHANGE_PASSWORD": "Cambiar contraseña",
+    "CURRENT_PASSWORD": "Contraseña actual",
+    "NEW_PASSWORD": "Nueva contraseña",
+    "CONFIRM_PASSWORD": "Confirmar contraseña",
+    "PASSWORD_CHANGED": "Contraseña actualizada exitosamente",
+    "PASSWORD_CHANGE_ERROR": "Error al actualizar la contraseña. Verifica que la contraseña actual sea correcta.",
+    "PASSWORD_MISMATCH": "Las contraseñas no coinciden",
     "CLOSE": "Cerrar"
   },
   "DASHBOARD": {
@@ -49,8 +56,17 @@
     "ACTIVE": "Activo",
     "INACTIVE": "Inactivo",
     "ACTIONS": "Acciones",
+    "CONFIRM": "Eliminar",
+    "CONFIRM_DELETE_TITLE": "Confirmar eliminación",
+    "CONFIRM_DELETE_MESSAGE": "¿Estás seguro de eliminar al usuario {{username}}? Esta acción no se puede deshacer.",
+    "USER_DELETED": "Usuario eliminado exitosamente",
+    "USER_DELETE_ERROR": "Error al eliminar el usuario",
+    "USER_ENABLED": "Usuario habilitado",
+    "USER_DISABLED": "Usuario deshabilitado",
+    "USER_UPDATE_ERROR": "Error al actualizar el usuario",
     "FORM": {
       "TITLE": "Registrar Nuevo Usuario",
+      "EDIT_TITLE": "Editar Usuario",
       "REQUIRED": "Este campo es obligatorio",
       "MIN_LENGTH": "Mínimo 3 caracteres",
       "INVALID_EMAIL": "Correo electrónico inválido",
@@ -60,7 +76,10 @@
       "PASSWORD_MIN_LENGTH": "Mínimo 8 caracteres",
       "PASSWORD_UPPERCASE": "Al menos una mayúscula",
       "PASSWORD_LOWERCASE": "Al menos una minúscula",
-      "PASSWORD_SPECIAL_CHAR": "Al menos un carácter especial"
+      "PASSWORD_SPECIAL_CHAR": "Al menos un carácter especial",
+      "USER_CREATED": "Usuario creado exitosamente",
+      "USER_UPDATED": "Usuario actualizado exitosamente",
+      "USER_CREATE_ERROR": "Error al crear el usuario"
     }
   },
   "LANGUAGE": {

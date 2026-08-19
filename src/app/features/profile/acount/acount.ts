@@ -5,9 +5,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/auth/auth.service';
+import { ChangePasswordDialog } from '../components/change-password/change-password';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-acount',
@@ -18,14 +21,17 @@ import { AuthService } from '../../../core/auth/auth.service';
     MatButtonModule,
     MatIconModule,
     MatDividerModule,
+    MatDialogModule,
     MatSnackBarModule,
     TranslatePipe,
+    MatTooltip,
   ],
   templateUrl: './acount.html',
   styleUrl: './acount.scss',
 })
 export class Acount implements OnInit {
   authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
   private readonly translate = inject(TranslateService);
 
@@ -59,6 +65,13 @@ export class Acount implements OnInit {
   cancel() {
     this.loadFormValues();
     this.editing.set(false);
+  }
+
+  openChangePassword() {
+    this.dialog.open(ChangePasswordDialog, {
+      width: '450px',
+      disableClose: true,
+    });
   }
 
   async save() {

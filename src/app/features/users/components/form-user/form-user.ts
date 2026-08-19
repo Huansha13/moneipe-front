@@ -1,12 +1,25 @@
-import { Component, inject, signal } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, inject, signal, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { UsersService } from '../../services/users.service';
+import { PasswordValidatorService } from '../../../../shared/services/password-validator.service';
+
+export interface UserDialogData {
+  id?: string;
+  username?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  enabled?: boolean;
+  mode: 'create' | 'edit';
+}
 
 @Component({
   selector: 'app-form-user',
@@ -18,14 +31,19 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
     MatIconModule,
     MatSlideToggleModule,
     MatDialogModule,
+    MatSnackBarModule,
     TranslatePipe,
   ],
   templateUrl: './form-user.html',
   styleUrl: './form-user.scss',
 })
-export class FormUser {
+export class FormUser implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<FormUser>);
   private readonly translate = inject(TranslateService);
+  private readonly usersService = inject(UsersService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly passwordValidator = inject(PasswordValidatorService);
+  readonly dialogData = inject<UserDialogData>(MAT_DIALOG_DATA);
 
   saving = signal(false);
   hidePassword = signal(true);
@@ -35,77 +53,102 @@ export class FormUser {
     email: new FormControl('', [Validators.required, Validators.email]),
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
-    password: new FormControl('', [Validators.required, this.passwordValidator]),
+    password: new FormControl(''),
     enabled: new FormControl(true),
   });
+
+  get isEditMode(): boolean {
+    return this.dialogData?.mode === 'edit';
+  }
+
+  ngOnInit() {
+    if (this.isEditMode && this.dialogData) {
+      this.form.patchValue({
+        username: this.dialogData.username,
+        email: this.dialogData.email,
+        firstName: this.dialogData.firstName,
+        lastName: this.dialogData.lastName,
+        enabled: this.dialogData.enabled,
+      });
+      this.form.get('username')?.disable();
+      this.form.get('password')?.clearValidators();
+      this.form.get('password')?.updateValueAndValidity();
+    } else {
+      this.form.get('password')?.setValidators([Validators.required, this.passwordValidator.createValidator()]);
+      this.form.get('password')?.updateValueAndValidity();
+    }
+  }
 
   cancel() {
     this.dialogRef.close();
   }
 
-  save() {
+  async save() {
     if (this.form.invalid) return;
-    this.dialogRef.close(this.form.getRawValue());
+
+    this.saving.set(true);
+    try {
+      const raw = this.form.getRawValue();
+
+      if (this.isEditMode) {
+        await this.usersService.updateUser(this.dialogData.id!, {
+          email: raw.email!,
+          firstName: raw.firstName!,
+          lastName: raw.lastName!,
+          enabled: raw.enabled!,
+        });
+
+        this.snackBar.open(
+          this.translate.instant('USERS.FORM.USER_UPDATED'),
+          this.translate.instant('ACCOUNT.CLOSE'),
+          { duration: 3000 }
+        );
+      } else {
+        await this.usersService.createUser({
+          username: raw.username!,
+          email: raw.email!,
+          firstName: raw.firstName!,
+          lastName: raw.lastName!,
+          password: raw.password!,
+          enabled: raw.enabled!,
+        });
+
+        this.snackBar.open(
+          this.translate.instant('USERS.FORM.USER_CREATED'),
+          this.translate.instant('ACCOUNT.CLOSE'),
+          { duration: 3000 }
+        );
+      }
+
+      this.dialogRef.close(true);
+    } catch (error) {
+      this.snackBar.open(
+        this.translate.instant('USERS.FORM.USER_CREATE_ERROR'),
+        this.translate.instant('ACCOUNT.CLOSE'),
+        { duration: 3000 }
+      );
+    } finally {
+      this.saving.set(false);
+    }
   }
 
   hasUpperCase(): boolean {
-    const value = this.form.get('password')?.value;
-    return value ? /[A-Z]/.test(value) : false;
+    return this.passwordValidator.hasUpperCase(this.form.get('password')?.value ?? '');
   }
 
   hasLowerCase(): boolean {
-    const value = this.form.get('password')?.value;
-    return value ? /[a-z]/.test(value) : false;
+    return this.passwordValidator.hasLowerCase(this.form.get('password')?.value ?? '');
   }
 
   hasSpecialChar(): boolean {
-    const value = this.form.get('password')?.value;
-    return value ? /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value) : false;
+    return this.passwordValidator.hasSpecialChar(this.form.get('password')?.value ?? '');
   }
 
   passwordValid(): boolean {
-    return this.hasUpperCase() && this.hasLowerCase() && this.hasSpecialChar() &&
-           (this.form.get('password')?.value?.length ?? 0) >= 8;
+    return this.passwordValidator.isValid(this.form.get('password')?.value ?? '');
   }
 
   getPasswordHint(): string {
-    const hints: string[] = [];
-    const value = this.form.get('password')?.value ?? '';
-
-    if (value.length < 8) {
-      hints.push(this.translate.instant('USERS.FORM.PASSWORD_MIN_LENGTH'));
-    }
-    if (!this.hasUpperCase()) {
-      hints.push(this.translate.instant('USERS.FORM.PASSWORD_UPPERCASE'));
-    }
-    if (!this.hasLowerCase()) {
-      hints.push(this.translate.instant('USERS.FORM.PASSWORD_LOWERCASE'));
-    }
-    if (!this.hasSpecialChar()) {
-      hints.push(this.translate.instant('USERS.FORM.PASSWORD_SPECIAL_CHAR'));
-    }
-
-    return hints.join(', ');
-  }
-
-  private passwordValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value;
-    if (!value) return null;
-
-    const hasMinLength = value.length >= 8;
-    const hasUpperCase = /[A-Z]/.test(value);
-    const hasLowerCase = /[a-z]/.test(value);
-    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value);
-
-    const valid = hasMinLength && hasUpperCase && hasLowerCase && hasSpecialChar;
-
-    return valid ? null : {
-      passwordStrength: {
-        hasMinLength,
-        hasUpperCase,
-        hasLowerCase,
-        hasSpecialChar,
-      }
-    };
+    return this.passwordValidator.getHint(this.form.get('password')?.value ?? '');
   }
 }
