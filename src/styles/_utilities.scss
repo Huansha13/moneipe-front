@@ -1,5 +1,5 @@
 :root {
-  --border-color: rgb(221, 221, 221, 0.12);
+  --border-color: var(--mat-divider-color, var(--mat-sys-outline-variant));
 }
 
 /* ============================================================
