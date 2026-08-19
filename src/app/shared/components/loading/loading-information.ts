@@ -23,7 +23,7 @@ type LoadingType = 'spinner' | 'bar';
     }
   `,
 })
-export class TableLoadingComponent {
+export class LoadingInformationComponent {
   private readonly translate = inject(TranslateService);
   active: InputSignal<LoadingType> = input('spinner' as LoadingType);
   loading = input(false);
