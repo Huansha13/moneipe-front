@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/auth/auth.guard';
+import { roleGuard } from './core/auth/role.guard';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,11 @@ export const routes: Routes = [
       {
         path: 'user-account',
         loadComponent: () => import('./features/profile/acount/acount').then(m => m.Acount)
+      },
+      {
+        path: 'users',
+        canActivate: [roleGuard(['manage-users'])],
+        loadComponent: () => import('./features/users/users').then(m => m.Users)
       },
     ]
   },

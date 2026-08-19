@@ -1,14 +1,15 @@
 {
   "APP": {
     "NAME": "Moneipe",
-    "VERSION": "V. 1.0.0"
+    "VERSION": "V. 1.0.1"
   },
   "NAV": {
     "DASHBOARD": "Dashboard",
     "ACCOUNTS": "Accounts & Finances",
     "INVESTMENTS": "Investments",
     "MY_GROUPS": "My Groups",
-    "USER_ACCOUNT": "My account"
+    "USER_ACCOUNT": "My account",
+    "USERS": "Users"
   },
   "MENU": {
     "MY_ACCOUNT": "My account",
@@ -36,6 +37,31 @@
   },
   "GROUP": {
     "TITLE": "Groups"
+  },
+  "USERS": {
+    "TITLE": "User Management",
+    "ADD_USER": "Add User",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "STATUS": "Status",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "ACTIONS": "Actions",
+    "FORM": {
+      "TITLE": "Register New User",
+      "REQUIRED": "This field is required",
+      "MIN_LENGTH": "Minimum 3 characters",
+      "INVALID_EMAIL": "Invalid email address",
+      "ENABLED": "Active user",
+      "PASSWORD": "Temporary password",
+      "PASSWORD_REQUIREMENTS": "Password does not meet requirements",
+      "PASSWORD_MIN_LENGTH": "Minimum 8 characters",
+      "PASSWORD_UPPERCASE": "At least one uppercase",
+      "PASSWORD_LOWERCASE": "At least one lowercase",
+      "PASSWORD_SPECIAL_CHAR": "At least one special character"
+    }
   },
   "LANGUAGE": {
     "EN": "English",

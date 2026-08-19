@@ -1,14 +1,15 @@
 {
   "APP": {
     "NAME": "Moneipe",
-    "VERSION": "V. 1.0.0"
+    "VERSION": "V. 1.0.1"
   },
   "NAV": {
     "DASHBOARD": "Dashboard",
     "ACCOUNTS": "Cuentas y Finanzas",
     "INVESTMENTS": "Inversiones",
     "MY_GROUPS": "Mis Grupos",
-    "USER_ACCOUNT": "Mi Cuenta"
+    "USER_ACCOUNT": "Mi Cuenta",
+    "USERS": "Usuarios"
   },
   "MENU": {
     "MY_ACCOUNT": "Mi cuenta",
@@ -36,6 +37,31 @@
   },
   "GROUP": {
     "TITLE": "Grupos"
+  },
+  "USERS": {
+    "TITLE": "Gestión de Usuarios",
+    "ADD_USER": "Agregar Usuario",
+    "USERNAME": "Usuario",
+    "EMAIL": "Correo",
+    "FIRST_NAME": "Nombres",
+    "LAST_NAME": "Apellidos",
+    "STATUS": "Estado",
+    "ACTIVE": "Activo",
+    "INACTIVE": "Inactivo",
+    "ACTIONS": "Acciones",
+    "FORM": {
+      "TITLE": "Registrar Nuevo Usuario",
+      "REQUIRED": "Este campo es obligatorio",
+      "MIN_LENGTH": "Mínimo 3 caracteres",
+      "INVALID_EMAIL": "Correo electrónico inválido",
+      "ENABLED": "Usuario activo",
+      "PASSWORD": "Contraseña temporal",
+      "PASSWORD_REQUIREMENTS": "La contraseña no cumple los requisitos",
+      "PASSWORD_MIN_LENGTH": "Mínimo 8 caracteres",
+      "PASSWORD_UPPERCASE": "Al menos una mayúscula",
+      "PASSWORD_LOWERCASE": "Al menos una minúscula",
+      "PASSWORD_SPECIAL_CHAR": "Al menos un carácter especial"
+    }
   },
   "LANGUAGE": {
     "EN": "Inglés",

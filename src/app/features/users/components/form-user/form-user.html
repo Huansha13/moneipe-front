@@ -1,0 +1,97 @@
+<h2 mat-dialog-title>{{ 'USERS.FORM.TITLE' | translate }}</h2>
+
+<mat-dialog-content class="pt-1">
+  <form [formGroup]="form" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'USERS.USERNAME' | translate }}</mat-label>
+      <input matInput formControlName="username">
+      <mat-icon matPrefix>alternate_email</mat-icon>
+
+      @if (form.get('username')?.hasError('required') && form.get('username')?.touched) {
+        <mat-error>{{ 'USERS.FORM.REQUIRED' | translate }}</mat-error>
+      }
+
+      @if (form.get('username')?.hasError('minlength') && form.get('username')?.touched) {
+        <mat-error>{{ 'USERS.FORM.MIN_LENGTH' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'USERS.EMAIL' | translate }}</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-icon matPrefix>mail</mat-icon>
+
+      @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
+        <mat-error>{{ 'USERS.FORM.REQUIRED' | translate }}</mat-error>
+      }
+
+      @if (form.get('email')?.hasError('email') && form.get('email')?.touched) {
+        <mat-error>{{ 'USERS.FORM.INVALID_EMAIL' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'USERS.FORM.PASSWORD' | translate }}</mat-label>
+      <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
+      <mat-icon matPrefix>lock</mat-icon>
+
+      <button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())" type="button">
+        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+
+      @if (form.get('password')?.hasError('required') && form.get('password')?.touched) {
+        <mat-error>{{ 'USERS.FORM.REQUIRED' | translate }}</mat-error>
+      }
+
+      @if (form.get('password')?.hasError('passwordStrength') && form.get('password')?.touched) {
+        <mat-error>
+         <!-- {{ 'USERS.FORM.PASSWORD_REQUIREMENTS' | translate }}-->
+          @if (form.get('password')?.value && form.get('password')?.touched && !passwordValid()) {
+            {{ getPasswordHint() }}
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'USERS.FIRST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="firstName">
+          <mat-icon matPrefix>person</mat-icon>
+
+          @if (form.get('firstName')?.hasError('required') && form.get('firstName')?.touched) {
+            <mat-error>{{ 'USERS.FORM.REQUIRED' | translate }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>{{ 'USERS.LAST_NAME' | translate }}</mat-label>
+          <input matInput formControlName="lastName">
+          <mat-icon matPrefix>person_outline</mat-icon>
+
+          @if (form.get('lastName')?.hasError('required') && form.get('lastName')?.touched) {
+            <mat-error>{{ 'USERS.FORM.REQUIRED' | translate }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div>
+      <mat-slide-toggle formControlName="enabled" color="primary">
+        {{ 'USERS.FORM.ENABLED' | translate }}
+      </mat-slide-toggle>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'ACCOUNT.CANCEL' | translate }}</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || saving()">
+    @if (saving()) {
+      <mat-icon class="me-1 spinner">progress_activity</mat-icon>
+    }
+    {{ 'ACCOUNT.SAVE' | translate }}
+  </button>
+</mat-dialog-actions>

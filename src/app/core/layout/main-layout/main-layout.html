@@ -15,16 +15,18 @@
       <div class="flex-1">
         <mat-nav-list class="pt-2">
           @for (item of navItems; track item.route) {
-            <mat-list-item [routerLink]="item.route"
-                            routerLinkActive="active"
-                           (click)="responsive.isMobile() && sidenavOpened.set(false);"
-                           onKeyUp="" class="my-2">
-              <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-              <span matListItemTitle>{{ item.labelKey | translate }}</span>
-              @if (item.badge) {
-                <span matListItemMeta class="badge rounded-pill px-2 py-0 fs-xs fw-semibold">{{ item.badge }}</span>
-              }
-            </mat-list-item>
+            @if (settings.hasAnyRole(item.roles)) {
+              <mat-list-item [routerLink]="item.route"
+                              routerLinkActive="active"
+                             (click)="responsive.isMobile() && sidenavOpened.set(false);"
+                             onKeyUp="" class="my-2">
+                <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+                <span matListItemTitle>{{ item.labelKey | translate }}</span>
+                @if (item.badge) {
+                  <span matListItemMeta class="badge rounded-pill px-2 py-0 fs-xs fw-semibold">{{ item.badge }}</span>
+                }
+              </mat-list-item>
+            }
           }
         </mat-nav-list>
       </div>

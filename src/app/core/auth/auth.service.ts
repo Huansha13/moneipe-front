@@ -16,6 +16,7 @@ interface UserProfile {
   fullName: string;
   initials: string;
   emailVerified: boolean;
+  roles: string[];
 }
 
 const EMPTY_PROFILE: UserProfile = {
@@ -29,6 +30,7 @@ const EMPTY_PROFILE: UserProfile = {
   fullName: '',
   initials: '',
   emailVerified: false,
+  roles: [],
 };
 
 @Injectable({ providedIn: 'root' })
@@ -75,6 +77,10 @@ export class AuthService {
     await this.keycloak.logout({ redirectUri: window.location.origin });
   }
 
+  hasRole(role: string): boolean {
+    return this.keycloak.hasRealmRole(role);
+  }
+
   private buildProfile() {
     const p = this.keycloak.profile;
     const firstName = p?.firstName ?? '';
@@ -92,6 +98,7 @@ export class AuthService {
       fullName: `${firstName} ${lastName}`.trim() || username,
       initials: `${firstName[0] ?? ''}${lastName[0] ?? ''}`.toUpperCase() || username.slice(0, 2).toUpperCase(),
       emailVerified: p?.emailVerified ?? false,
+      roles: this.keycloak.tokenParsed?.realm_access?.roles ?? [],
     });
   }
 }
