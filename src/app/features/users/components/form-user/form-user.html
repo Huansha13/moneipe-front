@@ -4,7 +4,7 @@
   <form [formGroup]="form" class="d-flex flex-column gap-3">
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>{{ 'USERS.USERNAME' | translate }}</mat-label>
-      <input matInput formControlName="username">
+      <input matInput formControlName="username" [id]="'username'">
       <mat-icon matPrefix>alternate_email</mat-icon>
 
       @if (form.get('username')?.hasError('required') && form.get('username')?.touched) {
@@ -18,7 +18,7 @@
 
     <mat-form-field appearance="outline" class="w-100">
       <mat-label>{{ 'USERS.EMAIL' | translate }}</mat-label>
-      <input matInput type="email" formControlName="email">
+      <input matInput type="email" formControlName="email" [id]="'email'">
       <mat-icon matPrefix>mail</mat-icon>
 
       @if (form.get('email')?.hasError('required') && form.get('email')?.touched) {
@@ -33,7 +33,7 @@
     @if (!isEditMode) {
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>{{ 'USERS.FORM.PASSWORD' | translate }}</mat-label>
-        <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
+        <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password" [id]="'password'">
         <mat-icon matPrefix>lock</mat-icon>
 
         <button mat-icon-button matSuffix (click)="hidePassword.set(!hidePassword())" type="button">
@@ -58,7 +58,7 @@
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ 'USERS.FIRST_NAME' | translate }}</mat-label>
-          <input matInput formControlName="firstName">
+          <input matInput formControlName="firstName" [id]="'firstName'">
           <mat-icon matPrefix>person</mat-icon>
 
           @if (form.get('firstName')?.hasError('required') && form.get('firstName')?.touched) {
@@ -69,7 +69,7 @@
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ 'USERS.LAST_NAME' | translate }}</mat-label>
-          <input matInput formControlName="lastName">
+          <input matInput formControlName="lastName" [id]="'lastName'">
           <mat-icon matPrefix>person_outline</mat-icon>
 
           @if (form.get('lastName')?.hasError('required') && form.get('lastName')?.touched) {

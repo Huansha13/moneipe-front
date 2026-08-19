@@ -1,4 +1,4 @@
-import {Component, inject, Input, input, InputSignal} from '@angular/core';
+import {Component, inject, input, InputSignal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';

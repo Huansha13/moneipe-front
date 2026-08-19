@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject, input} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -9,7 +9,7 @@ import {MatListItem, MatListItemIcon, MatListItemTitle} from '@angular/material/
   selector: 'app-language-switcher',
   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatListItem, MatListItemIcon, MatListItemTitle],
   template: `
-    @if (listMode) {
+    @if (listMode()) {
       <mat-list-item (click)="toggleLang()" onKeyUp="">
         <mat-icon matListItemIcon>language</mat-icon>
         <div matListItemTitle>
@@ -27,8 +27,9 @@ import {MatListItem, MatListItemIcon, MatListItemTitle} from '@angular/material/
   `,
 })
 export class LanguageSwitcherComponent {
-  @Input() listMode: boolean = false;
   private readonly language = inject(LanguageService);
+
+  listMode = input(false);
 
   get currentLang(): string {
     return this.language.currentLang();
