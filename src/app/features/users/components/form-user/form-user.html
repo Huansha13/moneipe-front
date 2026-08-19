@@ -88,10 +88,10 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-stroked-button (click)="cancel()">{{ 'ACCOUNT.CANCEL' | translate }}</button>
+  <button matButton="tonal" (click)="cancel()">{{ 'ACCOUNT.CANCEL' | translate }}</button>
   <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || saving()">
     @if (saving()) {
-      <mat-icon class="me-1 spinner">progress_activity</mat-icon>
+      <mat-icon class="spinner">progress_activity</mat-icon>
     }
     {{ 'ACCOUNT.SAVE' | translate }}
   </button>

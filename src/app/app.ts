@@ -10,6 +10,6 @@ import {MatIconRegistry} from '@angular/material/icon';
 })
 export class App {
   constructor() {
-    inject(MatIconRegistry).setDefaultFontSetClass('material-symbols-outlined');
+    inject(MatIconRegistry).setDefaultFontSetClass('material-symbols-rounded');
   }
 }

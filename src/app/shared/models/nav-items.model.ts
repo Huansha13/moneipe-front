@@ -11,6 +11,6 @@ export const NAV_ITEMS: NavItem[] = [
   { icon: 'dashboard', labelKey: 'NAV.DASHBOARD', route: '/dashboard' },
   { icon: 'account_balance', labelKey: 'NAV.ACCOUNTS', route: '/accounts' },
   { icon: 'trending_up', labelKey: 'NAV.INVESTMENTS', route: '/investments' },
-  { icon: 'group_work', labelKey: 'NAV.MY_GROUPS', badge: '3', route: '/groups' },
-  { icon: 'supervised_user_circle', labelKey: 'NAV.USERS', route: '/users', roles: ['manage-users'] },
+  { icon: 'supervised_user_circle', labelKey: 'NAV.MY_GROUPS', badge: '3', route: '/groups' },
+  { icon: 'manage_accounts', labelKey: 'NAV.USERS', route: '/users', roles: ['manage-users'] },
 ];

@@ -15,7 +15,7 @@
     <div class="d-flex gap-2">
       <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || saving()">
         @if (saving()) {
-          <mat-icon class="me-1 spinner">progress_activity</mat-icon>
+          <mat-icon class="spinner">progress_activity</mat-icon>
         } @else {
           <mat-icon>save</mat-icon>
         }
