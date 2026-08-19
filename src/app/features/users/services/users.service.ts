@@ -95,14 +95,6 @@ export class UsersService {
     );
   }
 
-  async updateUserEnabled(userId: string, enabled: boolean): Promise<void> {
-    await this.keycloak.updateToken(30);
-
-    await firstValueFrom(
-      this.http.put(`${this.adminUrl}/users/${userId}`, { enabled }, { headers: this.headers })
-    );
-  }
-
   async deleteUser(userId: string): Promise<void> {
     await this.keycloak.updateToken(30);
 

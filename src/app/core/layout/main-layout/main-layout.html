@@ -1,6 +1,6 @@
 <mat-sidenav-container class="h-100">
   <mat-sidenav
-    [mode]="responsive.isMobile() ? 'over' : 'side'"
+    [mode]="isMobile ? 'over' : 'side'"
     [opened]="sidenavOpened()"
     (closedStart)="sidenavOpened.set(false)"
     class="app-sidenav d-flex flex-column bg-sidenav p-2"
@@ -15,10 +15,10 @@
       <div class="flex-1">
         <mat-nav-list class="pt-2">
           @for (item of navItems; track item.route) {
-            @if (settings.hasAnyRole(item.roles)) {
+            @if (hasAnyRole(item.roles)) {
               <mat-list-item [routerLink]="item.route"
                               routerLinkActive="active"
-                             (click)="responsive.isMobile() && sidenavOpened.set(false);"
+                             (click)="isMobile && sidenavOpened.set(false);"
                              onKeyUp="" class="my-2">
                 <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
                 <span matListItemTitle>{{ item.labelKey | translate }}</span>
@@ -46,14 +46,14 @@
         <mat-nav-list>
           <mat-list-item [matMenuTriggerFor]="userMenu"
                          class="border"
-                         (click)="responsive.isMobile() && sidenavOpened.set(false);"
+                         (click)="isMobile && sidenavOpened.set(false);"
                          onKeyUp="">
             <mat-icon matListItemIcon>account_circle</mat-icon>
             <div matListItemTitle class="d-flex flex-column">
               <span>
-                {{ authService.profile().firstNameShort }}
-                @if (!responsive.isMobile()) {
-                  {{ authService.profile().lastNameShort }}
+                {{ userFirstNameShort }}
+                @if (!isMobile) {
+                  {{ userLastNameShort }}
                 }
               </span>
             </div>
@@ -77,7 +77,7 @@
       <mat-icon matListItemIcon>person</mat-icon>
       <div matListItemTitle class="d-flex flex-column">
         <span>{{ 'MENU.MY_ACCOUNT' | translate }}</span>
-        <span class="fs-xs text-muted">{{ authService.profile().email }}</span>
+        <span class="fs-xs text-muted">{{ userEmail }}</span>
       </div>
     </mat-list-item>
     <mat-divider></mat-divider>

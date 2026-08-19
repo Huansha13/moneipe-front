@@ -13,7 +13,7 @@ import { ChangePasswordDialog } from '../components/change-password/change-passw
 import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
-  selector: 'app-acount',
+  selector: 'app-account',
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -26,17 +26,41 @@ import {MatTooltip} from '@angular/material/tooltip';
     TranslatePipe,
     MatTooltip,
   ],
-  templateUrl: './acount.html',
-  styleUrl: './acount.scss',
+  templateUrl: './account.html',
+  styleUrl: './account.scss',
 })
-export class Acount implements OnInit {
-  authService = inject(AuthService);
+export class Account implements OnInit {
+  private readonly authService = inject(AuthService);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
   private readonly translate = inject(TranslateService);
 
   editing = signal(false);
   saving = signal(false);
+
+  get initials(): string {
+    return this.authService.profile().initials;
+  }
+
+  get fullName(): string {
+    return this.authService.profile().fullName;
+  }
+
+  get userId(): string {
+    return this.authService.profile().userId;
+  }
+
+  get username(): string {
+    return this.authService.profile().username;
+  }
+
+  get email(): string {
+    return this.authService.profile().email;
+  }
+
+  get emailVerified(): boolean {
+    return this.authService.profile().emailVerified;
+  }
 
   private readonly _editingEffect = effect(() => {
     const editing = this.editing();

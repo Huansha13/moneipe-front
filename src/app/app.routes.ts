@@ -15,7 +15,7 @@ export const routes: Routes = [
       },
       {
         path: 'user-account',
-        loadComponent: () => import('./features/profile/acount/acount').then(m => m.Acount)
+        loadComponent: () => import('./features/profile/acount/account').then(m => m.Account)
       },
       {
         path: 'users',

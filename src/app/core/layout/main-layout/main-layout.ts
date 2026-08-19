@@ -36,15 +36,35 @@ import {SettingsService} from '../../../shared/services/settings.service';
   styleUrl: './main-layout.scss'
 })
 export class MainLayout implements OnInit {
-  public responsive = inject(ResponsiveService);
-  public authService = inject(AuthService);
-  public language = inject(LanguageService);
-  public settings = inject(SettingsService);
+  private readonly responsive = inject(ResponsiveService);
+  private readonly authService = inject(AuthService);
+  private readonly language = inject(LanguageService);
+  private readonly settings = inject(SettingsService);
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
   sidenavOpened = signal(true);
   activeRouteName = signal('');
   navItems: NavItem[] = NAV_ITEMS;
+
+  get userFirstNameShort(): string {
+    return this.authService.profile().firstNameShort;
+  }
+
+  get userLastNameShort(): string {
+    return this.authService.profile().lastNameShort;
+  }
+
+  get userEmail(): string {
+    return this.authService.profile().email;
+  }
+
+  get isMobile(): boolean {
+    return this.responsive.isMobile();
+  }
+
+  hasAnyRole(roles?: string[]): boolean {
+    return this.settings.hasAnyRole(roles);
+  }
 
   constructor() {
     effect(() => {

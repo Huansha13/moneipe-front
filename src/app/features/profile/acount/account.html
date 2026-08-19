@@ -1,9 +1,9 @@
 <div class="profile-header d-flex align-items-center justify-content-between mb-4">
   <div class="d-flex align-items-center gap-3">
-    <div class="avatar rounded-2">{{ authService.profile().initials }}</div>
+    <div class="avatar rounded-2">{{ initials }}</div>
     <div>
-      <h1 class="m-0 fs-2xl fw-bold">{{ authService.profile().fullName }}</h1>
-      <span class="text-muted fs-sm">UUID: {{ authService.profile().userId }}</span>
+      <h1 class="m-0 fs-2xl fw-bold">{{ fullName }}</h1>
+      <span class="text-muted fs-sm">UUID: {{ userId }}</span>
     </div>
   </div>
 
@@ -67,14 +67,14 @@
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ 'ACCOUNT.USERNAME' | translate }}</mat-label>
-          <input matInput [value]="authService.profile().username" disabled>
+          <input matInput [value]="username" disabled>
           <mat-icon matPrefix>alternate_email</mat-icon>
         </mat-form-field>
       </div>
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100">
           <mat-label>{{ 'ACCOUNT.EMAIL_VERIFIED' | translate }}</mat-label>
-          <input matInput [value]="authService.profile().emailVerified ? ('ACCOUNT.YES' | translate) : ('ACCOUNT.NO' | translate)" disabled>
+          <input matInput [value]="emailVerified ? ('ACCOUNT.YES' | translate) : ('ACCOUNT.NO' | translate)" disabled>
           <mat-icon matPrefix>verified</mat-icon>
         </mat-form-field>
       </div>

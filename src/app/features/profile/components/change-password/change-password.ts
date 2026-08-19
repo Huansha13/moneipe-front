@@ -73,18 +73,6 @@ export class ChangePasswordDialog {
     }
   }
 
-  hasUpperCase(): boolean {
-    return this.passwordValidator.hasUpperCase(this.form.get('newPassword')?.value ?? '');
-  }
-
-  hasLowerCase(): boolean {
-    return this.passwordValidator.hasLowerCase(this.form.get('newPassword')?.value ?? '');
-  }
-
-  hasSpecialChar(): boolean {
-    return this.passwordValidator.hasSpecialChar(this.form.get('newPassword')?.value ?? '');
-  }
-
   passwordValid(): boolean {
     return this.passwordValidator.isValid(this.form.get('newPassword')?.value ?? '');
   }

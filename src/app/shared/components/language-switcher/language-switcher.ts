@@ -10,23 +10,31 @@ import {MatListItem, MatListItemIcon, MatListItemTitle} from '@angular/material/
   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatListItem, MatListItemIcon, MatListItemTitle],
   template: `
     @if (listMode) {
-      <mat-list-item (click)="language.toggleLang()" onKeyUp="">
+      <mat-list-item (click)="toggleLang()" onKeyUp="">
         <mat-icon matListItemIcon>language</mat-icon>
         <div matListItemTitle>
-          {{ language.currentLang() === 'es' ? 'Switch to English' : 'Cambiar a Español' }}
+          {{ currentLang === 'es' ? 'Switch to English' : 'Cambiar a Español' }}
         </div>
       </mat-list-item>
     } @else {
       <button
         mat-button
-        (click)="language.toggleLang()"
-        [matTooltip]="language.currentLang() === 'es' ? 'Switch to English' : 'Cambiar a Español'">
-        <mat-icon>{{ language.currentLang() === 'es' ? 'language_spanish' : 'language_us' }}</mat-icon>
+        (click)="toggleLang()"
+        [matTooltip]="currentLang === 'es' ? 'Switch to English' : 'Cambiar a Español'">
+        <mat-icon>{{ currentLang === 'es' ? 'language_spanish' : 'language_us' }}</mat-icon>
       </button>
     }
   `,
 })
 export class LanguageSwitcherComponent {
   @Input() listMode: boolean = false;
-  language = inject(LanguageService);
+  private readonly language = inject(LanguageService);
+
+  get currentLang(): string {
+    return this.language.currentLang();
+  }
+
+  toggleLang(): void {
+    this.language.toggleLang();
+  }
 }

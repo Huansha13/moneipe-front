@@ -1,15 +1,15 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { UsersService } from '../../services/users.service';
-import { PasswordValidatorService } from '../../../../shared/services/password-validator.service';
+import {Component, inject, signal, OnInit} from '@angular/core';
+import {ReactiveFormsModule, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {UsersService} from '../../services/users.service';
+import {PasswordValidatorService} from '../../../../shared/services/password-validator.service';
 
 export interface UserDialogData {
   id?: string;
@@ -101,7 +101,7 @@ export class FormUser implements OnInit {
         this.snackBar.open(
           this.translate.instant('USERS.FORM.USER_UPDATED'),
           this.translate.instant('ACCOUNT.CLOSE'),
-          { duration: 3000 }
+          {duration: 3000}
         );
       } else {
         await this.usersService.createUser({
@@ -116,32 +116,25 @@ export class FormUser implements OnInit {
         this.snackBar.open(
           this.translate.instant('USERS.FORM.USER_CREATED'),
           this.translate.instant('ACCOUNT.CLOSE'),
-          { duration: 3000 }
+          {duration: 3000}
         );
       }
 
       this.dialogRef.close(true);
     } catch (error) {
-      this.snackBar.open(
-        this.translate.instant('USERS.FORM.USER_CREATE_ERROR'),
-        this.translate.instant('ACCOUNT.CLOSE'),
-        { duration: 3000 }
-      );
+      console.error('Error al guardar el usuario:', error);
+      this.snackBarError();
     } finally {
       this.saving.set(false);
     }
   }
 
-  hasUpperCase(): boolean {
-    return this.passwordValidator.hasUpperCase(this.form.get('password')?.value ?? '');
-  }
-
-  hasLowerCase(): boolean {
-    return this.passwordValidator.hasLowerCase(this.form.get('password')?.value ?? '');
-  }
-
-  hasSpecialChar(): boolean {
-    return this.passwordValidator.hasSpecialChar(this.form.get('password')?.value ?? '');
+  private snackBarError() {
+    this.snackBar.open(
+      this.translate.instant('USERS.FORM.USER_CREATE_ERROR'),
+      this.translate.instant('ACCOUNT.CLOSE'),
+      {duration: 3000}
+    );
   }
 
   passwordValid(): boolean {
