@@ -3,15 +3,10 @@
     <h2>{{ 'USERS.TITLE' | translate }}</h2>
     <button mat-fab color="primary" (click)="openFormUser()">
       <mat-icon>add</mat-icon>
-      <!--{{ 'USERS.ADD_USER' | translate }}-->
     </button>
   </div>
 
-  @if (loading()) {
-    <div class="d-flex justify-content-center p-4">
-      <mat-icon class="spinner">progress_activity</mat-icon>
-    </div>
-  } @else {
+  <div class="table-wrapper pb-4">
     <table mat-table [dataSource]="users()" class="w-100">
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef>{{ 'USERS.USERNAME' | translate }}</th>
@@ -55,5 +50,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  }
+  </div>
+  <app-loading-information active="spinner" [loading]="loading()"/>
 </div>

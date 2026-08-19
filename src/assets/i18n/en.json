@@ -82,6 +82,9 @@
       "USER_CREATE_ERROR": "Error creating user"
     }
   },
+  "LOADING": {
+    "INFORMATION": "Loading..."
+  },
   "LANGUAGE": {
     "EN": "English",
     "ES": "Spanish"

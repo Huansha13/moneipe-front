@@ -8,6 +8,8 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { FormUser, UserDialogData } from './components/form-user/form-user';
 import { UsersService } from './services/users.service';
 import { ConfirmDialog, ConfirmDialogData } from '../../shared/components/confirm-dialog/confirm-dialog';
+import { SkeletonComponent } from '../../shared/components/skeleton/skeleton';
+import { TableLoadingComponent } from '../../shared/components/table-loading/loading-information';
 
 interface User {
   id: string;
@@ -27,6 +29,8 @@ interface User {
     MatDialogModule,
     MatSnackBarModule,
     TranslatePipe,
+    SkeletonComponent,
+    TableLoadingComponent,
   ],
   templateUrl: './users.html',
   styleUrl: './users.scss'
