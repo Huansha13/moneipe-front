@@ -1,1 +1,36 @@
-<p>{{ 'GROUP.TITLE' | translate }}</p>
+<div class="users-container">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ 'GROUP.TITLE' | translate }}</h1>
+    <button mat-fab color="primary" (click)="openFormUser()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div class="d-flex flex-column gap-3">
+    <div class="row">
+      @for (group of groups(); track group.id) {
+        <div class="col-md-3">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ group.title }}</mat-card-title>
+              <mat-card-subtitle>
+                <mat-chip-set>
+                  <mat-chip [disabled]="true">
+                    {{ group.role }}
+                  </mat-chip>
+                </mat-chip-set>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ group.description }}</p>
+            </mat-card-content>
+            <mat-card-actions align="end" class="gap-2">
+              <span class="text-muted fs-sm">{{ 'GROUP.ID' | translate }} #{{ group.id }}</span>
+              <button mat-button>{{ 'GROUP.VIEW_DETAILS' | translate }}</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      }
+    </div>
+  </div>
+</div>

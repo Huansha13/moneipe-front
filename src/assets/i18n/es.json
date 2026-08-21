@@ -43,10 +43,12 @@
     "TITLE": "Dashboard"
   },
   "GROUP": {
-    "TITLE": "Grupos"
+    "TITLE": "Lista de Grupos",
+    "VIEW_DETAILS": "Ver detalles",
+    "ID": "ID Grupo:"
   },
   "USERS": {
-    "TITLE": "Gestión de Usuarios",
+    "TITLE": "Lista de Usuarios",
     "ADD_USER": "Agregar Usuario",
     "USERNAME": "Usuario",
     "EMAIL": "Correo",

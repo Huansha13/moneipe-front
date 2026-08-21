@@ -44,6 +44,7 @@ export class MainLayout implements OnInit {
   private readonly translate = inject(TranslateService);
   sidenavOpened = signal(true);
   activeRouteName = signal('');
+  countMyGroups = signal(5); // get api - backend
   navItems: NavItem[] = NAV_ITEMS;
 
   get userFirstNameShort(): string {

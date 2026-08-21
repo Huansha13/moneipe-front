@@ -22,8 +22,8 @@
                              onKeyUp="" class="my-2">
                 <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
                 <span matListItemTitle>{{ item.labelKey | translate }}</span>
-                @if (item.badge) {
-                  <span matListItemMeta class="badge rounded-pill px-2 py-0 fs-xs fw-semibold">{{ item.badge }}</span>
+                @if (item.badge && item.id === 4) {
+                  <span matListItemMeta class="badge rounded-pill px-2 py-0 fs-xs fw-semibold">{{ countMyGroups() }}</span>
                 }
               </mat-list-item>
             }

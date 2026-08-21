@@ -18,6 +18,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/profile/acount/account').then(m => m.Account)
       },
       {
+        path: 'groups',
+        loadComponent: () => import('./features/group/group').then(m => m.Group)
+       },
+      {
         path: 'users',
         canActivate: [roleGuard(['manage-users'])],
         loadComponent: () => import('./features/users/users').then(m => m.Users)

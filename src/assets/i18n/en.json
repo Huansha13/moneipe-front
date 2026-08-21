@@ -43,10 +43,12 @@
     "TITLE": "Dashboard"
   },
   "GROUP": {
-    "TITLE": "Groups"
+    "TITLE": "Group List",
+    "VIEW_DETAILS": "View details",
+    "ID": "Group ID:"
   },
   "USERS": {
-    "TITLE": "User Management",
+    "TITLE": "User List",
     "ADD_USER": "Add User",
     "USERNAME": "Username",
     "EMAIL": "Email",
