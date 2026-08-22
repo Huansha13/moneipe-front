@@ -90,5 +90,27 @@
   "LANGUAGE": {
     "EN": "Inglés",
     "ES": "Español"
+  },
+  "INVESTMENTS": {
+    "TITLE": "Portafolio de Inversiones",
+    "ADD_INVESTMENT": "Agregar Inversión",
+    "NO": "No.",
+    "NAME": "Nombre",
+    "DESCRIPTION": "Descripción",
+    "AMOUNT": "Monto",
+    "DATE": "Fecha",
+    "ACTIONS": "Acciones",
+    "TOTAL": "Total",
+    "TAB_AJI": "Siembra de Ají",
+    "TAB_CANA": "Siembra de Caña",
+    "TAB_MAIZ": "Siembra de Maíz",
+    "CONFIRM_DELETE_TITLE": "Confirmar eliminación",
+    "CONFIRM_DELETE_MESSAGE": "¿Estás seguro de eliminar la inversión {{name}}? Esta acción no se puede deshacer.",
+    "INVESTMENT_DELETED": "Inversión eliminada exitosamente",
+    "INVESTMENT_DELETE_ERROR": "Error al eliminar la inversión",
+    "INVESTMENT_CREATED": "Inversión creada exitosamente",
+    "INVESTMENT_UPDATED": "Inversión actualizada exitosamente",
+    "INVESTMENT_CREATE_ERROR": "Error al crear la inversión",
+    "INVESTMENT_UPDATE_ERROR": "Error al actualizar la inversión"
   }
 }

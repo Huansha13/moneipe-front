@@ -90,5 +90,27 @@
   "LANGUAGE": {
     "EN": "English",
     "ES": "Spanish"
+  },
+  "INVESTMENTS": {
+    "TITLE": "Investments",
+    "ADD_INVESTMENT": "Add Investment",
+    "NO": "No.",
+    "NAME": "Name",
+    "DESCRIPTION": "Description",
+    "AMOUNT": "Amount",
+    "DATE": "Date",
+    "ACTIONS": "Actions",
+    "TOTAL": "Total",
+    "TAB_AJI": "Chili Planting",
+    "TAB_CANA": "Sugarcane Planting",
+    "TAB_MAIZ": "Corn Planting",
+    "CONFIRM_DELETE_TITLE": "Confirm deletion",
+    "CONFIRM_DELETE_MESSAGE": "Are you sure you want to delete investment {{name}}? This action cannot be undone.",
+    "INVESTMENT_DELETED": "Investment deleted successfully",
+    "INVESTMENT_DELETE_ERROR": "Error deleting investment",
+    "INVESTMENT_CREATED": "Investment created successfully",
+    "INVESTMENT_UPDATED": "Investment updated successfully",
+    "INVESTMENT_CREATE_ERROR": "Error creating investment",
+    "INVESTMENT_UPDATE_ERROR": "Error updating investment"
   }
 }

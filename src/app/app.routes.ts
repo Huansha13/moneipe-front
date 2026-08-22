@@ -26,6 +26,10 @@ export const routes: Routes = [
         canActivate: [roleGuard(['manage-users'])],
         loadComponent: () => import('./features/users/users').then(m => m.Users)
       },
+      {
+        path: 'investments',
+        loadComponent: () => import('./features/investment/investment').then(m => m.Investment)
+      }
     ]
   },
   {
