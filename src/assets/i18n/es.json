@@ -44,8 +44,37 @@
   },
   "GROUP": {
     "TITLE": "Lista de Grupos",
-    "VIEW_DETAILS": "Ver detalles",
-    "ID": "ID Grupo:"
+    "ID": "ID Grupo:",
+    "SEARCH_LABEL": "Buscar grupos",
+    "CLEAR_SEARCH": "Limpiar búsqueda",
+    "EMPTY_LIST": "Aún no tienes grupos",
+    "EMPTY_LIST_TEXT": "Crea un grupo para empezar a compartir gastos",
+    "NO_RESULTS": "Sin resultados",
+    "NO_RESULTS_TEXT": "Prueba con otro término de búsqueda",
+    "BACK": "Volver",
+    "ROLES": {
+      "ADMIN": "Administrador",
+      "MEMBER": "Miembro"
+    },
+    "DETAIL": {
+      "SUBTITLE": "Chat del grupo",
+      "EMPTY_TITLE": "Selecciona un grupo",
+      "EMPTY_TEXT": "Elige un grupo de la lista para abrir su chat",
+      "ROLE": "Tu rol",
+      "MODAL_TITLE": "Información del grupo"
+    },
+    "MEMBERS": {
+      "TITLE": "Miembros del grupo",
+      "OPEN": "Ver miembros",
+      "LABEL": "Miembros",
+      "EMPTY": "Este grupo aún no tiene miembros",
+      "UNIT": "miembros"
+    },
+    "CHAT": {
+      "LABEL": "Escribe un mensaje",
+      "SEND": "Enviar mensaje",
+      "EMPTY": "Aún no hay mensajes. ¡Envía el primero!"
+    }
   },
   "USERS": {
     "TITLE": "Lista de Usuarios",

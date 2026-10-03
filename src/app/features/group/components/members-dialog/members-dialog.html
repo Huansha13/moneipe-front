@@ -1,0 +1,44 @@
+<h2 mat-dialog-title class="d-flex align-items-center gap-2">
+  <mat-icon>groups</mat-icon>
+  <span>{{ 'GROUP.MEMBERS.TITLE' | translate }}</span>
+</h2>
+
+<mat-dialog-content class="members-dialog">
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
+    <span class="fw-semibold text-truncate">{{ data.group.title }}</span>
+    <span class="fs-sm text-muted text-nowrap">
+      {{ data.group.members.length }} {{ 'GROUP.MEMBERS.UNIT' | translate }}
+    </span>
+  </div>
+
+  <mat-list class="p-0">
+    @for (member of data.group.members; track member.id) {
+      <mat-list-item>
+        <span
+          matListItemAvatar
+          class="bg-gray-200 d-flex align-items-center justify-content-center fw-semibold"
+        >
+          {{ member.name | initials }}
+        </span>
+
+        <span matListItemTitle>{{ member.name }}</span>
+        <span matListItemLine class="d-flex align-items-center fs-xs text-muted">{{ member.email }}</span>
+
+        <span
+          matListItemMeta
+          class="align-self-center fs-xs fw-semibold"
+          [class.text-primary]="member.role === 'ADMIN'"
+          [class.text-muted]="member.role !== 'ADMIN'"
+        >
+          {{ (member.role === 'ADMIN' ? 'GROUP.ROLES.ADMIN' : 'GROUP.ROLES.MEMBER') | translate }}
+        </span>
+      </mat-list-item>
+    } @empty {
+      <div class="py-4 text-center fs-sm text-muted">{{ 'GROUP.MEMBERS.EMPTY' | translate }}</div>
+    }
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="dialogRef.close()">{{ 'ACCOUNT.CLOSE' | translate }}</button>
+</mat-dialog-actions>

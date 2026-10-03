@@ -1,0 +1,97 @@
+@if (group(); as g) {
+  <section class="group-detail d-flex flex-column h-100 overflow-hidden">
+    <header class="group-detail__header d-flex align-items-center gap-3 p-3 border-bottom">
+      <button
+        mat-icon-button
+        class="group-detail__back flex-shrink-0"
+        [attr.aria-label]="'GROUP.BACK' | translate"
+        (click)="back.emit()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      <div class="group-detail__heading flex-1">
+        <div class="fw-semibold text-truncate">{{ g.title }}</div>
+        <div class="fs-xs text-muted">{{ 'GROUP.DETAIL.SUBTITLE' | translate }}</div>
+      </div>
+
+      <mat-chip-set class="flex-shrink-0">
+        <mat-chip [disabled]="true">
+          {{ (g.role === 'ADMIN' ? 'GROUP.ROLES.ADMIN' : 'GROUP.ROLES.MEMBER') | translate }}
+        </mat-chip>
+      </mat-chip-set>
+
+      <div class="d-flex align-items-center flex-shrink-0">
+        <button
+          mat-icon-button
+          [attr.aria-label]="'GROUP.DETAIL.MODAL_TITLE' | translate"
+          (click)="openInfo()"
+        >
+          <mat-icon>info</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [attr.aria-label]="'GROUP.MEMBERS.OPEN' | translate"
+          (click)="openMembers()"
+        >
+          <mat-icon>groups</mat-icon>
+        </button>
+      </div>
+    </header>
+
+    <div class="chat d-flex flex-column flex-1 overflow-hidden">
+      <div
+        class="chat-messages flex-1 overflow-y-auto p-3 d-flex gap-2"
+        [class.chat-messages--empty]="messages().length === 0"
+      >
+        @for (message of reversedMessages(); track message.id) {
+          <div class="chat-msg" [class.chat-msg--mine]="message.mine">
+            <div class="chat-msg__bubble rounded-3 px-3 py-2">
+              @if (!message.mine) {
+                <div class="chat-msg__author fs-xs fw-semibold mb-1">{{ message.author }}</div>
+              }
+              <div class="chat-msg__text lh-base">{{ message.text }}</div>
+              <div class="chat-msg__time fs-xs text-muted text-end mt-1">{{ message.time }}</div>
+            </div>
+          </div>
+        } @empty {
+          <div class="flex-1 d-flex flex-column align-items-center justify-content-center text-center gap-2">
+            <mat-icon class="group-detail__icon text-muted">forum</mat-icon>
+            <span class="fs-sm text-muted">{{ 'GROUP.CHAT.EMPTY' | translate }}</span>
+          </div>
+        }
+      </div>
+
+      <form
+        class="chat-composer d-flex align-items-center gap-2 p-2"
+        (submit)="send($event)"
+      >
+        <mat-form-field class="flex-1" appearance="outline" subscriptSizing="dynamic" [classList]="">
+          <input id="" matInput type="text"
+                 [formControl]="messageControl" [placeholder]="'GROUP.CHAT.LABEL' | translate " />
+
+          <button
+            matSuffix
+            matIconButton
+            color="primary"
+            type="submit"
+            [disabled]="!canSend()"
+            [attr.aria-label]="'GROUP.CHAT.SEND' | translate"
+          >
+            <mat-icon>send</mat-icon>
+          </button>
+        </mat-form-field>
+      </form>
+    </div>
+  </section>
+} @else {
+  <div
+    class="group-detail-empty d-flex flex-column align-items-center justify-content-center text-center gap-2 p-4 h-100"
+  >
+    <span class="group-detail-empty__icon d-flex align-items-center justify-content-center rounded-circle mb-1">
+      <mat-icon>touch_app</mat-icon>
+    </span>
+    <p class="mb-0 fw-semibold">{{ 'GROUP.DETAIL.EMPTY_TITLE' | translate }}</p>
+    <span class="fs-sm text-muted">{{ 'GROUP.DETAIL.EMPTY_TEXT' | translate }}</span>
+  </div>
+}

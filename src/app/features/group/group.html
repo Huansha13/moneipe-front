@@ -1,36 +1,78 @@
 <div>
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>{{ 'GROUP.TITLE' | translate }}</h1>
-    <button mat-fab color="primary" (click)="openFormUser()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <div class="d-flex align-items-center gap-2">
+      <h1 class="mb-0">{{ 'GROUP.TITLE' | translate }}</h1>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>{{ 'GROUP.SEARCH_LABEL' | translate }}</mat-label>
+        <input id="" matInput type="text" [formControl]="searchControl" />
+        @if (search()) {
+          <button
+            matSuffix
+            matIconButton
+            type="button"
+            [attr.aria-label]="'GROUP.CLEAR_SEARCH' | translate"
+            (click)="searchControl.setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+      <button mat-fab color="primary" (click)="openFormUser()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
   </div>
 
-  <div class="d-flex flex-column gap-3">
-    <div class="row">
-      @for (group of groups(); track group.id) {
-        <div class="col-md-3">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>{{ group.title }}</mat-card-title>
-              <mat-card-subtitle>
-                <mat-chip-set>
-                  <mat-chip [disabled]="true">
-                    {{ group.role }}
-                  </mat-chip>
-                </mat-chip-set>
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <p>{{ group.description }}</p>
-            </mat-card-content>
-            <mat-card-actions align="end" class="gap-2">
-              <span class="text-muted fs-sm">{{ 'GROUP.ID' | translate }} #{{ group.id }}</span>
-              <button mat-button>{{ 'GROUP.VIEW_DETAILS' | translate }}</button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-      }
+  <div class="row-group" [class.has-selection]="selectedGroup() !== null">
+    <div class="col-list border rounded">
+      <div class="group-list flex-1 overflow-y-auto">
+        @if (filteredGroups().length === 0) {
+          <div class="group-empty d-flex flex-column align-items-center justify-content-center text-center gap-2 py-5">
+            <span class="group-empty__icon d-flex align-items-center justify-content-center rounded-circle mb-1">
+              <mat-icon>{{ search() ? 'search_off' : 'groups' }}</mat-icon>
+            </span>
+            <p class="mb-0 fw-semibold">
+              {{ (search() ? 'GROUP.NO_RESULTS' : 'GROUP.EMPTY_LIST') | translate }}
+            </p>
+            <span class="fs-sm text-muted">
+              {{ (search() ? 'GROUP.NO_RESULTS_TEXT' : 'GROUP.EMPTY_LIST_TEXT') | translate }}
+            </span>
+          </div>
+        } @else {
+          <mat-list>
+            @for (group of filteredGroups(); track group.id) {
+              <mat-list-item
+                class="group-item rounded-0"
+                role="button"
+                tabindex="0"
+                [class.is-active]="selectedGroup()?.id === group.id"
+                [attr.aria-pressed]="selectedGroup()?.id === group.id"
+                (click)="selectGroup(group)"
+                (keydown.enter)="selectGroup(group)"
+                (keydown.space)="selectGroup(group); $event.preventDefault()"
+              >
+                <span matListItemAvatar
+                  class="bg-gray-200 d-flex align-items-center justify-content-center fw-semibold">
+                  {{ group.title | initials }}
+                </span>
+
+                <span matListItemTitle>{{ group.title }}</span>
+
+                <span matListItemLine class="group-item__line d-flex align-items-center gap-2">
+                  <span class="flex-1 text-truncate">{{ group.description }}</span>
+                  <span class="fs-xs text-muted text-nowrap">#{{ group.id }}</span>
+                </span>
+              </mat-list-item>
+            }
+          </mat-list>
+        }
+      </div>
+    </div>
+
+    <div class="col-detail rounded">
+      <app-group-detail [group]="selectedGroup()" (back)="closeDetail()" />
     </div>
   </div>
 </div>

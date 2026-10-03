@@ -1,0 +1,39 @@
+<h2 mat-dialog-title class="d-flex align-items-center gap-2">
+  <mat-icon>info</mat-icon>
+  <span>{{ 'GROUP.DETAIL.MODAL_TITLE' | translate }}</span>
+</h2>
+
+<mat-dialog-content class="group-info-dialog">
+  <div class="fs-lg fw-semibold mb-1">{{ data.group.title }}</div>
+  <p class="text-muted lh-base mb-3">{{ data.group.description }}</p>
+
+  <mat-list class="p-0">
+    <mat-list-item>
+      <mat-icon matListItemIcon>tag</mat-icon>
+      <span matListItemTitle>{{ 'GROUP.ID' | translate }}</span>
+      <span matListItemMeta class="align-self-center fs-sm fw-semibold">#{{ data.group.id }}</span>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListItemIcon>shield_person</mat-icon>
+      <span matListItemTitle>{{ 'GROUP.DETAIL.ROLE' | translate }}</span>
+      <span matListItemMeta class="align-self-center fs-sm fw-semibold">
+        {{ (data.group.role === 'ADMIN' ? 'GROUP.ROLES.ADMIN' : 'GROUP.ROLES.MEMBER') | translate }}
+      </span>
+    </mat-list-item>
+
+    <mat-list-item>
+      <mat-icon matListItemIcon>groups</mat-icon>
+      <span matListItemTitle>{{ 'GROUP.MEMBERS.LABEL' | translate }}</span>
+      <span matListItemMeta class="align-self-center fs-sm fw-semibold">{{ data.group.members.length }}</span>
+    </mat-list-item>
+  </mat-list>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="openMembers()">
+    <mat-icon>groups</mat-icon>
+    {{ 'GROUP.MEMBERS.OPEN' | translate }}
+  </button>
+  <button mat-flat-button (click)="dialogRef.close()">{{ 'ACCOUNT.CLOSE' | translate }}</button>
+</mat-dialog-actions>
