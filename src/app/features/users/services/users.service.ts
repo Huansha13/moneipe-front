@@ -1,33 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import Keycloak from 'keycloak-js';
 import { environment } from '../../../../environments/environment';
 import { firstValueFrom } from 'rxjs';
-
-export interface CreateUserRequest {
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  enabled: boolean;
-  credentials: Array<{
-    type: string;
-    value: string;
-    temporary: boolean;
-  }>;
-}
+import { UsuarioResponse } from '../models/usuario.model';
 
 @Injectable({ providedIn: 'root' })
 export class UsersService {
   private readonly http = inject(HttpClient);
-  private readonly keycloak = inject(Keycloak);
 
-  private get adminUrl(): string {
-    return `${environment.keycloak.url}/admin/realms/${environment.keycloak.realm}`;
-  }
-
-  private get headers() {
-    return { Authorization: `Bearer ${this.keycloak.token}` };
+  private get apiUrl(): string {
+    return `${environment.apiUrl}/api/usuarios`;
   }
 
   async createUser(data: {
@@ -38,25 +20,16 @@ export class UsersService {
     password: string;
     enabled: boolean;
   }): Promise<void> {
-    await this.keycloak.updateToken(30);
-
-    const payload: CreateUserRequest = {
+    const payload = {
       username: data.username,
       email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      enabled: data.enabled,
-      credentials: [
-        {
-          type: 'password',
-          value: data.password,
-          temporary: true,
-        },
-      ],
+      nombres: data.firstName,
+      apellidos: data.lastName,
+      password: data.password,
     };
 
     await firstValueFrom(
-      this.http.post(`${this.adminUrl}/users`, payload, { headers: this.headers })
+      this.http.post(this.apiUrl, payload)
     );
   }
 
@@ -68,18 +41,18 @@ export class UsersService {
     lastName: string;
     enabled: boolean;
   }>> {
-    await this.keycloak.updateToken(30);
-
-    return firstValueFrom(
-      this.http.get<Array<{
-        id: string;
-        username: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-        enabled: boolean;
-      }>>(`${this.adminUrl}/users`, { headers: this.headers })
+    const usuarios = await firstValueFrom(
+      this.http.get<UsuarioResponse[]>(this.apiUrl)
     );
+
+    return usuarios.map(u => ({
+      id: u.id,
+      username: u.username,
+      email: u.email,
+      firstName: u.nombres,
+      lastName: u.apellidos,
+      enabled: u.activo,
+    }));
   }
 
   async updateUser(userId: string, data: {
@@ -88,18 +61,32 @@ export class UsersService {
     lastName: string;
     enabled: boolean;
   }): Promise<void> {
-    await this.keycloak.updateToken(30);
+    const payload = {
+      nombres: data.firstName,
+      apellidos: data.lastName,
+      email: data.email,
+    };
 
     await firstValueFrom(
-      this.http.put(`${this.adminUrl}/users/${userId}`, data, { headers: this.headers })
+      this.http.put(`${this.apiUrl}/${userId}`, payload)
     );
+
+    if (!data.enabled) {
+      await firstValueFrom(
+        this.http.delete(`${this.apiUrl}/${userId}`)
+      );
+    }
   }
 
   async deleteUser(userId: string): Promise<void> {
-    await this.keycloak.updateToken(30);
-
     await firstValueFrom(
-      this.http.delete(`${this.adminUrl}/users/${userId}`, { headers: this.headers })
+      this.http.delete(`${this.apiUrl}/${userId}`)
+    );
+  }
+
+  async resetPassword(userId: string, newPassword: string): Promise<void> {
+    await firstValueFrom(
+      this.http.put(`${this.apiUrl}/${userId}/password`, { password: newPassword })
     );
   }
 }

@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
   keycloak: {
-    url: 'https://moneipe-keycloak.huansha.win',
-    realm: 'moneipe',
+    url: 'https://auth-moneipe-k3-dev.huansha.win',
+    realm: 'moneipe-dev',
     clientId: 'moneipe-frontend',
   },
   apiUrl: 'http://localhost:8080',

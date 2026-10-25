@@ -22,13 +22,13 @@ export const routes: Routes = [
         loadComponent: () => import('./features/group/group').then(m => m.Group)
        },
       {
+        path: 'investments',
+        loadComponent: () => import('./features/investment/investment').then(m => m.Investment)
+      },
+      {
         path: 'users',
         canActivate: [roleGuard(['manage-users'])],
         loadComponent: () => import('./features/users/users').then(m => m.Users)
-      },
-      {
-        path: 'investments',
-        loadComponent: () => import('./features/investment/investment').then(m => m.Investment)
       }
     ]
   },

@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, output} from '@angular/core';
+import {Component, computed, effect, inject, input, output} from '@angular/core';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
@@ -47,17 +47,26 @@ export class GroupDetail {
     return this.chatService.messages()[groupId] ?? [];
   });
 
+  constructor() {
+    effect(() => {
+      const g = this.group();
+      if (g) {
+        this.chatService.loadMessages(g.id);
+      }
+    });
+  }
+
   // El contenedor del chat es column-reverse: el primer hijo se pinta abajo (lo más reciente)
   protected readonly reversedMessages = computed(() => [...this.messages()].reverse());
 
-  protected send(event?: Event) {
+  protected async send(event?: Event) {
     event?.preventDefault();
 
     const group = this.group();
     const text = this.messageControl.value.trim();
     if (!group || !text) return;
 
-    this.chatService.send(group.id, text);
+    await this.chatService.send(group.id, text);
     this.messageControl.setValue('');
   }
 

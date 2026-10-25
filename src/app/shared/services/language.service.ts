@@ -31,13 +31,7 @@ export class LanguageService {
     localStorage.setItem(STORAGE_KEY, lang);
     document.documentElement.lang = lang;
 
-    if (this.keycloak.authenticated) {
-      try {
-        await this.keycloak.updateToken(30);
-      } catch {
-        // token refresh failed
-      }
-    }
+    // Token refresh is handled by the bearer interceptor automatically
   }
 
   toggleLang() {

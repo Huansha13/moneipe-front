@@ -8,9 +8,12 @@ import {MatListModule} from '@angular/material/list';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {Group as GroupModel, GroupService} from './service/group.service';
 import {GroupDetail} from './components/group-detail/group-detail';
+import {CreateGroupDialog} from './components/create-group-dialog/create-group-dialog';
 import {InitialsPipe} from '../../shared/pipes/initials.pipe';
+import {AuthService} from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-group',
@@ -22,6 +25,7 @@ import {InitialsPipe} from '../../shared/pipes/initials.pipe';
     MatChipsModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
     TranslatePipe,
     InitialsPipe,
     GroupDetail,
@@ -29,12 +33,17 @@ import {InitialsPipe} from '../../shared/pipes/initials.pipe';
   templateUrl: './group.html',
   styleUrl: './group.scss',
 })
-
 export class Group {
   private readonly groupService = inject(GroupService);
+  private readonly dialog = inject(MatDialog);
+  private readonly authService = inject(AuthService);
 
   groups = this.groupService.groups;
   groupCount = this.groupService.groupCount;
+
+  constructor() {
+    this.groupService.loadGroups();
+  }
 
   protected readonly searchControl = new FormControl('', {nonNullable: true});
   protected readonly search = toSignal(this.searchControl.valueChanges, {initialValue: ''});
@@ -62,5 +71,15 @@ export class Group {
   }
 
   protected openFormUser() {
+    const dialogRef = this.dialog.open(CreateGroupDialog, {
+      width: '500px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.groupService.loadGroups();
+      }
+    });
   }
 }

@@ -1,1 +1,90 @@
-<p class="text-muted">{{ 'DASHBOARD.TITLE' | translate }}</p>
+<div class="dashboard-container">
+  @if (resumen().loading) {
+    <div class="dashboard-loading">
+      <mat-spinner diameter="40" />
+    </div>
+  } @else {
+    <div class="dashboard-cards">
+      <mat-card class="dashboard-card" appearance="outlined">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon gastos">receipt_long</mat-icon>
+          <mat-card-title>Controles de Gasto</mat-card-title>
+          <mat-card-subtitle>{{ resumen().controlesCount }} activos</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card class="dashboard-card" appearance="outlined">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon grupos">groups</mat-icon>
+          <mat-card-title>Mis Grupos</mat-card-title>
+          <mat-card-subtitle>{{ resumen().gruposCount }} grupos</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card class="dashboard-card" appearance="outlined">
+        <mat-card-header>
+          <mat-icon mat-card-avatar class="card-icon inversiones">trending_up</mat-icon>
+          <mat-card-title>Portafolios</mat-card-title>
+          <mat-card-subtitle>{{ resumen().portafoliosCount }} portafolios</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+
+    @if (grupos().length > 0) {
+      <section class="dashboard-section">
+        <h2 class="section-title">Mis Grupos</h2>
+        <div class="groups-grid">
+          @for (group of grupos(); track group.id) {
+            <mat-card class="group-card" appearance="outlined">
+              <mat-card-header>
+                <mat-card-title>{{ group.nombre }}</mat-card-title>
+                <mat-card-subtitle>{{ group.descripcion ?? 'Sin descripcion' }}</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          }
+        </div>
+      </section>
+    }
+
+    @if (controles().length > 0) {
+      <section class="dashboard-section">
+        <h2 class="section-title">Mis Controles de Gasto</h2>
+        <div class="controls-list">
+          @for (control of controles(); track control.id) {
+            <mat-card class="control-item" appearance="outlined">
+              <mat-card-header>
+                <mat-card-title>{{ control.titulo }}</mat-card-title>
+                @if (control.descripcion) {
+                  <mat-card-subtitle>{{ control.descripcion }}</mat-card-subtitle>
+                }
+              </mat-card-header>
+            </mat-card>
+          }
+        </div>
+      </section>
+    }
+
+    @if (portafolios().length > 0) {
+      <section class="dashboard-section">
+        <h2 class="section-title">Mis Portafolios</h2>
+        <div class="portfolios-list">
+          @for (pf of portafolios(); track pf.id) {
+            <mat-card class="portfolio-item" appearance="outlined">
+              <mat-card-header>
+                <mat-card-title>{{ pf.nombre }}</mat-card-title>
+                <mat-card-subtitle>{{ pf.moneda }}</mat-card-subtitle>
+              </mat-card-header>
+            </mat-card>
+          }
+        </div>
+      </section>
+    }
+
+    @if (controles().length === 0 && grupos().length === 0 && portafolios().length === 0) {
+      <div class="dashboard-empty">
+        <mat-icon class="empty-icon">dashboard</mat-icon>
+        <p class="empty-text">No tienes datos todavía. Crea tu primer control de gasto o portafolio.</p>
+      </div>
+    }
+  }
+</div>

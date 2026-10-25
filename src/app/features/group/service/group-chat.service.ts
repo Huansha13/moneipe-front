@@ -1,52 +1,62 @@
-import {Injectable, signal} from '@angular/core';
-
-export interface GroupMessage {
-  id: number;
-  author: string;
-  text: string;
-  mine: boolean;
-  time: string;
-}
+import { Injectable, signal, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { firstValueFrom } from 'rxjs';
+import { GroupMessage, MensajeResponse } from '../models/group-message.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupChatService {
-  private nextId = 100;
+  private readonly http = inject(HttpClient);
 
-  private readonly messagesSignal = signal<Record<number, GroupMessage[]>>({
-    1: [
-      {id: 1, author: 'Ana Torres', text: '¡Hola a todos! ¿Planificamos el viaje del fin de semana?', mine: false, time: '09:12'},
-      {id: 2, author: 'Tú', text: '¡Sí! Yo me encargo de la reserva.', mine: true, time: '09:15'},
-      {id: 3, author: 'Luis Torres', text: 'Perfecto, yo llevo el almuerzo.', mine: false, time: '09:18'},
-      {id: 4, author: 'María Torres', text: 'Cuento conmigo para el sábado.', mine: false, time: '09:21'}
-    ],
-    2: [
-      {id: 5, author: 'Sofía Ramírez', text: '¿Alguien tiene las notas de la última clase?', mine: false, time: '16:40'},
-      {id: 6, author: 'Tú', text: 'Te las paso por la noche.', mine: true, time: '16:45'}
-    ],
-    3: [
-      {id: 7, author: 'Roberto Díaz', text: 'Recordatorio: reunión de equipo mañana a las 10.', mine: false, time: '08:30'}
-    ],
-    4: [],
-    5: []
-  });
+  private get apiUrl(): string {
+    return `${environment.apiUrl}/api/notificaciones`;
+  }
 
-  // Signal pública de solo lectura: mensajes agrupados por id de grupo
+  private readonly messagesSignal = signal<Record<string, GroupMessage[]>>({});
+
   messages = this.messagesSignal.asReadonly();
 
-  send(groupId: number, text: string) {
-    const message: GroupMessage = {
-      id: this.nextId++,
-      author: 'Tú',
-      text,
-      mine: true,
-      time: new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
-    };
+  async loadMessages(groupId: string): Promise<void> {
+    try {
+      const msgs = await firstValueFrom(
+        this.http.get<MensajeResponse[]>(`${this.apiUrl}/grupos/${groupId}/mensajes`)
+      );
+      const mapped: GroupMessage[] = msgs.map(m => ({
+        id: m.id,
+        author: m.usuarioId,
+        text: m.texto,
+        mine: false,
+        time: new Date(m.fecha).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}),
+      }));
+      this.messagesSignal.update(state => ({ ...state, [groupId]: mapped }));
+    } catch (err) {
+      console.error('Error cargando mensajes:', err);
+    }
+  }
 
-    this.messagesSignal.update(state => ({
-      ...state,
-      [groupId]: [...(state[groupId] ?? []), message]
-    }));
+  async send(groupId: string, text: string): Promise<void> {
+    try {
+      const msg = await firstValueFrom(
+        this.http.post<MensajeResponse>(
+          `${this.apiUrl}/grupos/${groupId}/mensajes`,
+          { texto: text }
+        )
+      );
+      const message: GroupMessage = {
+        id: msg.id,
+        author: 'Tu',
+        text: msg.texto,
+        mine: true,
+        time: new Date(msg.fecha).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}),
+      };
+      this.messagesSignal.update(state => ({
+        ...state,
+        [groupId]: [...(state[groupId] ?? []), message]
+      }));
+    } catch (err) {
+      console.error('Error enviando mensaje:', err);
+    }
   }
 }

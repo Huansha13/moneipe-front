@@ -52,6 +52,11 @@
     "NO_RESULTS": "No results",
     "NO_RESULTS_TEXT": "Try another search term",
     "BACK": "Back",
+    "CREATE_TITLE": "Create new group",
+    "TITLE_LABEL": "Title",
+    "DESCRIPTION_LABEL": "Description",
+    "CREATED": "Group created successfully",
+    "CREATE_ERROR": "Error creating group",
     "ROLES": {
       "ADMIN": "Admin",
       "MEMBER": "Member"
@@ -67,6 +72,8 @@
       "TITLE": "Group members",
       "OPEN": "View members",
       "LABEL": "Members",
+      "SELECT": "Select members",
+      "NO_USERS": "No users available",
       "EMPTY": "This group has no members yet",
       "UNIT": "members"
     },
