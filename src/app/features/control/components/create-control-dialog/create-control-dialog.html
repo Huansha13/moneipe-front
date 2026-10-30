@@ -32,11 +32,13 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="w-100">
-      <mat-label>{{ 'GROUP.MEMBERS.LABEL' | translate }}</mat-label>
-      @if (loadingUsers()) {
+    @if (loadingUsers()) {
+      <div class="d-flex align-items-center gap-2">
         <mat-spinner diameter="20" />
-      } @else {
+      </div>
+    } @else {
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ 'GROUP.MEMBERS.LABEL' | translate }}</mat-label>
         <mat-select formControlName="inviteMembers" multiple>
           @for (user of users; track user.id) {
             <mat-option [value]="user.id">
@@ -44,8 +46,8 @@
             </mat-option>
           }
         </mat-select>
-      }
-    </mat-form-field>
+      </mat-form-field>
+    }
     <span class="fs-xs text-muted">{{ 'CONTROL.INVITE_HINT' | translate }}</span>
   </form>
 </mat-dialog-content>
