@@ -15,6 +15,7 @@ export class ControlDetailService {
   readonly control = signal<any | null>(null);
   readonly loading = signal(true);
   readonly saving = signal(false);
+  readonly users = signal<any[]>([]);
   readonly gastos = signal<any[]>([]);
   readonly members = signal<any[]>([]);
   readonly auditLogs = signal<any[]>([]);
@@ -66,7 +67,8 @@ export class ControlDetailService {
       role: 'MIEMBRO',
     })));
 
-    // Porcentajes desde backend
+    this.loading.set(false);
+
     try {
       const asignaciones = await firstValueFrom(this.http.get<any[]>(`${this.apiUrl}/controles/${controlId}/asignaciones`));
       const draft: Record<string, number> = {};
@@ -74,7 +76,7 @@ export class ControlDetailService {
         for (const a of asignaciones) draft[a.usuarioId] = Number(a.porcentaje) || 0;
       }
       for (const m of this.members()) {
-        if (draft[m.id] === undefined) draft[m.id] = 0;
+        draft[m.id] ??= 0;
       }
       this.percentDraft.set(draft);
     } catch {
@@ -94,11 +96,11 @@ export class ControlDetailService {
     this.summaryTotals.set(totals);
     this.summaryNames.set(names);
 
+    // Auditoría en segundo plano
     const audit = await firstValueFrom(this.http.get<any[]>(`${this.apiUrl}/controles/${controlId}/auditoria`)).catch(() => []);
     this.auditLogs.set(audit ?? []);
     } catch (err) {
       console.error('Error cargando detalle:', err);
-    } finally {
       this.loading.set(false);
     }
   }
