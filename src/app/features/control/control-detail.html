@@ -15,6 +15,9 @@
           <div class="d-flex justify-content-between align-items-center w-100">
             <mat-card-title>Gastos <small class="ml-2">({{ gastos().length }})</small></mat-card-title>
             <div class="d-flex gap-2">
+              <button mat-stroked-button (click)="downloadReport()">
+                <mat-icon>download</mat-icon> Descargar reporte
+              </button>
               <button mat-stroked-button color="primary" (click)="openMoveGastos()" [disabled]="selectedIds().size === 0 || !editable">
                 <mat-icon>drive_file_move</mat-icon> Mover seleccionados ({{ selectedIds().size }})
               </button>
