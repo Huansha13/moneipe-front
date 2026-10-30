@@ -54,7 +54,7 @@ export class DashboardService {
   }
 
   loadStats(): void {
-    firstValueFrom(this.http.get<{ mes: string; total: number }[]>(`${this.gastosUrl}/estadisticas/mensual`))
+    firstValueFrom(this.http.get<{ mes: string; total: number }[]>(`${this.gastosUrl}/controles/estadisticas/mensual`))
       .then(data => this.monthlyStatsSignal.set(data ?? []))
       .catch(() => this.monthlyStatsSignal.set([]));
   }
