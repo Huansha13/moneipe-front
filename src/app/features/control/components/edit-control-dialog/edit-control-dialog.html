@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Editar control</h2>
+
+<mat-dialog-content class="pt-2">
+  <form [formGroup]="form" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" />
+      @if (form.controls.titulo.hasError('required')) {
+        <mat-error>El título es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Descripción</mat-label>
+      <input matInput formControlName="descripcion" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">Cancelar</button>
+  <button matButton="tonal" (click)="save()" [disabled]="form.invalid || saving()">
+    @if (saving()) {
+      <mat-icon class="spinner">progress_activity</mat-icon>
+    } @else {
+      <mat-icon>check</mat-icon>
+    }
+    Guardar
+  </button>
+</mat-dialog-actions>

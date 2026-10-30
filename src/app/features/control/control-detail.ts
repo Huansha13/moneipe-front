@@ -19,6 +19,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { CreateGastoDialog } from './components/create-gasto-dialog/create-gasto-dialog';
 import { MoveGastosDialog } from './components/move-gastos-dialog/move-gastos-dialog';
+import { EditControlDialog } from './components/edit-control-dialog/edit-control-dialog';
 import { ControlDetailService } from './service/control-detail.service';
 
 @Component({
@@ -196,6 +197,18 @@ export class ControlDetail implements OnInit {
 
     const safeName = (control?.titulo ?? 'control').replace(/[^a-zA-Z0-9-_ ]/g, '').trim().replace(/\\s+/g, '-');
     doc.save(`reporte-${safeName || 'control'}.pdf`);
+  }
+
+  openEditControl() {
+    const control = this.svc.control();
+    if (!control?.id) return;
+    const dialogRef = this.dialog.open(EditControlDialog, {
+      width: '480px', maxWidth: '95vw', disableClose: true,
+      data: { controlId: control.id, titulo: control.titulo ?? '', descripcion: control.descripcion ?? '' },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) void this.svc.load(control.id);
+    });
   }
 
   openMoveGastos() {

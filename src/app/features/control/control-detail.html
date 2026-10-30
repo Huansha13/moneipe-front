@@ -1,6 +1,9 @@
 <div class="d-flex align-items-center gap-2 mb-3">
   <button mat-icon-button (click)="goBack()"><mat-icon>arrow_back</mat-icon></button>
   <h1 class="my-0 py-0">{{ control()?.titulo }}</h1>
+  <button mat-icon-button (click)="openEditControl()" [disabled]="!editable" aria-label="Editar control">
+    <mat-icon>edit</mat-icon>
+  </button>
 </div>
 
 @if (loading()) {
