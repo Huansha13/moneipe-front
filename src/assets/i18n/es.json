@@ -9,7 +9,8 @@
     "INVESTMENTS": "Inversiones",
     "MY_GROUPS": "Mis Grupos",
     "USER_ACCOUNT": "Mi Cuenta",
-    "USERS": "Usuarios"
+    "USERS": "Usuarios",
+    "CONTROLS": "Controles de Gasto"
   },
   "MENU": {
     "MY_ACCOUNT": "Mi cuenta",
@@ -81,7 +82,8 @@
       "LABEL": "Escribe un mensaje",
       "SEND": "Enviar mensaje",
       "EMPTY": "Aún no hay mensajes. ¡Envía el primero!"
-    }
+    },
+    "LEAVE": "Salir del grupo"
   },
   "USERS": {
     "TITLE": "Lista de Usuarios",
@@ -147,6 +149,60 @@
     "INVESTMENT_CREATED": "Inversión creada exitosamente",
     "INVESTMENT_UPDATED": "Inversión actualizada exitosamente",
     "INVESTMENT_CREATE_ERROR": "Error al crear la inversión",
-    "INVESTMENT_UPDATE_ERROR": "Error al actualizar la inversión"
+    "INVESTMENT_UPDATE_ERROR": "Error al actualizar la inversión",
+    "EMPTY": "No tienes portafolios",
+    "EMPTY_TEXT": "Crea tu primer portafolio de inversión",
+    "CURRENCY": "Moneda",
+    "CREATE_TITLE": "Crear portafolio",
+    "NAME_REQUIRED": "El nombre es obligatorio",
+    "SAVE": "Guardar",
+    "NO_ASSETS": "Sin activos en este portafolio",
+    "ADD_ASSET": "Agregar",
+    "CREATE_ASSET_TITLE": "Agregar activo",
+    "TYPE": "Tipo",
+    "SYMBOL": "Símbodo",
+    "ASSET_NAME": "Nombre",
+    "QUANTITY": "Cantidad",
+    "PURCHASE_PRICE": "Precio compra",
+    "PURCHASE_DATE": "Fecha compra",
+    "OPTIONAL_GROUP": "Grupo (opcional)",
+    "NO_GROUP": "Sin grupo",
+    "GROUP_OPTIONAL": "Grupo (opcional)"
+  },
+  "CONTROL": {
+    "CREATE_TITLE": "Crear control de gasto",
+    "TITLE": "Título",
+    "TITLE_REQUIRED": "El título es obligatorio",
+    "DESCRIPTION": "Descripción",
+    "SAVE": "Guardar",
+    "INVITE_HINT": "Selecciona miembros para crear un grupo vinculado a este control",
+    "EMPTY": "Sin controles",
+    "NEW_CONTROL": "Nuevo Control",
+    "EXPENSES": "Gastos",
+    "NEW_EXPENSE": "Nuevo Gasto",
+    "ASSIGN_TO": "Asignar a",
+    "SHARED_PERCENTAGES": "Porcentajes Compartidos",
+    "SAVE_PERCENTAGES": "Guardar porcentajes",
+    "HISTORY": "Historial de cambios",
+    "NO_CHANGES": "Sin cambios registrados",
+    "SHARED_EXPENSE": "Gasto compartido",
+    "TOTAL_SHARED": "Total compartido",
+    "TOTAL_EXPENSE": "Total de gasto",
+    "PREVIOUS": "Anterior",
+    "NEW": "Nuevo",
+    "USER": "Usuario",
+    "PERCENTAGE": "Porcentaje",
+    "TOTAL": "Total",
+    "DETAIL": "Detalle",
+    "ADD": "Agregar",
+    "LEAVE": "Salir del grupo",
+    "PIN": "Fijar",
+    "UNPIN": "Desfijar",
+    "MEMBERS": "Miembros",
+    "CALCULATE": "Calcular",
+    "COMPLETE": "Completar",
+    "DELETE": "Eliminar",
+    "NO_EXPENSES": "Sin gastos registrados",
+    "FIRST_EXPENSE": "Agregar primer gasto"
   }
 }

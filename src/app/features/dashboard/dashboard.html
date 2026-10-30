@@ -1,90 +1,89 @@
-<div class="dashboard-container">
-  @if (resumen().loading) {
-    <div class="dashboard-loading">
-      <mat-spinner diameter="40" />
-    </div>
-  } @else {
-    <div class="dashboard-cards">
-      <mat-card class="dashboard-card" appearance="outlined">
-        <mat-card-header>
-          <mat-icon mat-card-avatar class="card-icon gastos">receipt_long</mat-icon>
-          <mat-card-title>Controles de Gasto</mat-card-title>
-          <mat-card-subtitle>{{ resumen().controlesCount }} activos</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-
-      <mat-card class="dashboard-card" appearance="outlined">
-        <mat-card-header>
-          <mat-icon mat-card-avatar class="card-icon grupos">groups</mat-icon>
-          <mat-card-title>Mis Grupos</mat-card-title>
-          <mat-card-subtitle>{{ resumen().gruposCount }} grupos</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-
-      <mat-card class="dashboard-card" appearance="outlined">
-        <mat-card-header>
-          <mat-icon mat-card-avatar class="card-icon inversiones">trending_up</mat-icon>
-          <mat-card-title>Portafolios</mat-card-title>
-          <mat-card-subtitle>{{ resumen().portafoliosCount }} portafolios</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-    </div>
-
-    @if (grupos().length > 0) {
-      <section class="dashboard-section">
-        <h2 class="section-title">Mis Grupos</h2>
-        <div class="groups-grid">
-          @for (group of grupos(); track group.id) {
-            <mat-card class="group-card" appearance="outlined">
-              <mat-card-header>
-                <mat-card-title>{{ group.nombre }}</mat-card-title>
-                <mat-card-subtitle>{{ group.descripcion ?? 'Sin descripcion' }}</mat-card-subtitle>
-              </mat-card-header>
-            </mat-card>
-          }
-        </div>
-      </section>
-    }
-
-    @if (controles().length > 0) {
-      <section class="dashboard-section">
-        <h2 class="section-title">Mis Controles de Gasto</h2>
-        <div class="controls-list">
-          @for (control of controles(); track control.id) {
-            <mat-card class="control-item" appearance="outlined">
-              <mat-card-header>
-                <mat-card-title>{{ control.titulo }}</mat-card-title>
-                @if (control.descripcion) {
-                  <mat-card-subtitle>{{ control.descripcion }}</mat-card-subtitle>
-                }
-              </mat-card-header>
-            </mat-card>
-          }
-        </div>
-      </section>
-    }
-
-    @if (portafolios().length > 0) {
-      <section class="dashboard-section">
-        <h2 class="section-title">Mis Portafolios</h2>
-        <div class="portfolios-list">
-          @for (pf of portafolios(); track pf.id) {
-            <mat-card class="portfolio-item" appearance="outlined">
-              <mat-card-header>
-                <mat-card-title>{{ pf.nombre }}</mat-card-title>
-                <mat-card-subtitle>{{ pf.moneda }}</mat-card-subtitle>
-              </mat-card-header>
-            </mat-card>
-          }
-        </div>
-      </section>
-    }
-
-    @if (controles().length === 0 && grupos().length === 0 && portafolios().length === 0) {
-      <div class="dashboard-empty">
-        <mat-icon class="empty-icon">dashboard</mat-icon>
-        <p class="empty-text">No tienes datos todavía. Crea tu primer control de gasto o portafolio.</p>
-      </div>
-    }
-  }
+<div class="d-flex justify-content-between align-items-center mb-4 gap-3">
+  <div>
+    <h1 class="mb-0">Resumen General</h1>
+    <p class="text-muted fs-sm mb-0">Gestiona tus grupos, controles y finanzas.</p>
+  </div>
+  <button mat-flat-button color="primary" (click)="openCreateControl()">
+    <mat-icon>add</mat-icon> Nuevo Registro
+  </button>
 </div>
+
+<!-- KPIs -->
+<div class="d-flex flex-wrap gap-3 mb-4">
+  <mat-card appearance="outlined" class="flex-1">
+    <mat-card-content class="d-flex align-items-center gap-3">
+      <div>
+        <p class="text-sm text-muted mb-0">Controles de Gasto</p>
+        <p class="text-2xl fw-bold mb-0">{{ controles().length }} <span class="fs-sm text-muted">activos</span></p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card appearance="outlined" class="flex-1">
+    <mat-card-content class="d-flex align-items-center gap-3">
+      <div>
+        <p class="text-sm text-muted mb-0">Mis Grupos</p>
+        <p class="text-2xl fw-bold mb-0">{{ resumen().gruposCount }} <span class="fs-sm text-muted">grupos</span></p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Chart -->
+<mat-card appearance="outlined" class="mb-4">
+  <mat-card-header>
+    <mat-card-title>Evolución de Gastos</mat-card-title>
+    <mat-card-subtitle>Total gastado en los últimos 6 meses</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div style="height: 300px;">
+      <canvas baseChart [data]="chartData()" [type]="'line'" [options]="chartOptions"></canvas>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Grupos -->
+<!--@if (grupos().length > 0) {
+  <section class="mb-4">
+    <h2 class="text-lg fw-bold mb-2">Mis Grupos</h2>
+    <div class="d-flex flex-wrap gap-3">
+      @for (group of grupos(); track group.id) {
+        <mat-card appearance="outlined" class="flex-1">
+          <mat-card-content>
+            <p class="fw-semibold mb-0">{{ group.nombre }}</p>
+            <p class="fs-xs text-muted mb-0">{{ group.descripcion ?? 'Sin descripcion' }}</p>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </section>
+}-->
+
+<!-- Controles -->
+@if (controles().length > 0) {
+  <section>
+    <h2 class="text-lg fw-bold mb-2">Mis Controles de Gasto recientes</h2>
+    <table mat-table [dataSource]="controles()" class="w-100">
+      <ng-container matColumnDef="titulo">
+        <th mat-header-cell *matHeaderCellDef>Título</th>
+        <td mat-cell *matCellDef="let c">{{ c.titulo }}</td>
+      </ng-container>
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef>Descripción</th>
+        <td mat-cell *matCellDef="let c">{{ c.descripcion }}</td>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let c">{{ c.estadoControl }}</td>
+      </ng-container>
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let c">
+          <button mat-button (click)="openDetail(c.id)">Ver detalle</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['titulo', 'descripcion', 'estado', 'acciones']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['titulo', 'descripcion', 'estado', 'acciones'];"></tr>
+    </table>
+  </section>
+}

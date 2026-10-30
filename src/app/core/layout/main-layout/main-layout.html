@@ -6,7 +6,7 @@
     class="app-sidenav d-flex flex-column bg-sidenav p-2"
   >
     <div class="d-flex flex-column h-100">
-      <mat-toolbar class="position-sticky top-0 z-1 bg-sidenav">
+      <mat-toolbar class="position-sticky top-0 z-2 bg-sidenav">
         <div class="d-flex align-items-center justify-content-center w-100 gap-1">
           <mat-icon>wallet</mat-icon>
           <div class="fw-semibold">{{ 'APP.NAME' | translate }}</div>
@@ -34,7 +34,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar class="position-sticky top-0 z-1 gap-2 p-3" style="margin: 0 !important;">
+    <mat-toolbar class="position-sticky top-0 z-2 gap-2 p-3" style="margin: 0 !important;">
       <button mat-icon-button (click)="toggleSidenav()">
         <mat-icon>menu_open</mat-icon>
       </button>

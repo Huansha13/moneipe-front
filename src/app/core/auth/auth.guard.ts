@@ -20,7 +20,8 @@ const checkUserAuthenticated = async (
   }
 
   const authService = inject(AuthService);
-  await authService.loadUserProfile();
+  // Cargar perfil sin bloquear la navegación
+  authService.loadUserProfile().catch(() => {});
   return true;
 };
 

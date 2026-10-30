@@ -9,7 +9,8 @@
     "INVESTMENTS": "Investments",
     "MY_GROUPS": "My Groups",
     "USER_ACCOUNT": "My account",
-    "USERS": "Users"
+    "USERS": "Users",
+    "CONTROLS": "Expense Controls"
   },
   "MENU": {
     "MY_ACCOUNT": "My account",
@@ -81,7 +82,8 @@
       "LABEL": "Type a message",
       "SEND": "Send message",
       "EMPTY": "No messages yet. Send the first one!"
-    }
+    },
+    "LEAVE": "Leave group"
   },
   "USERS": {
     "TITLE": "User List",
@@ -147,6 +149,60 @@
     "INVESTMENT_CREATED": "Investment created successfully",
     "INVESTMENT_UPDATED": "Investment updated successfully",
     "INVESTMENT_CREATE_ERROR": "Error creating investment",
-    "INVESTMENT_UPDATE_ERROR": "Error updating investment"
+    "INVESTMENT_UPDATE_ERROR": "Error updating investment",
+    "EMPTY": "No portfolios",
+    "EMPTY_TEXT": "Create your first investment portfolio",
+    "CURRENCY": "Currency",
+    "CREATE_TITLE": "Create portfolio",
+    "NAME_REQUIRED": "Name is required",
+    "SAVE": "Save",
+    "NO_ASSETS": "No assets in this portfolio",
+    "ADD_ASSET": "Add",
+    "CREATE_ASSET_TITLE": "Add asset",
+    "TYPE": "Type",
+    "SYMBOL": "Symbol",
+    "ASSET_NAME": "Name",
+    "QUANTITY": "Quantity",
+    "PURCHASE_PRICE": "Purchase price",
+    "PURCHASE_DATE": "Purchase date",
+    "OPTIONAL_GROUP": "Group (optional)",
+    "NO_GROUP": "No group",
+    "GROUP_OPTIONAL": "Group (optional)"
+  },
+  "CONTROL": {
+    "CREATE_TITLE": "Create expense control",
+    "TITLE": "Title",
+    "TITLE_REQUIRED": "Title is required",
+    "DESCRIPTION": "Description",
+    "SAVE": "Save",
+    "INVITE_HINT": "Select members to create a group linked to this control",
+    "EMPTY": "No controls",
+    "NEW_CONTROL": "New Control",
+    "EXPENSES": "Expenses",
+    "NEW_EXPENSE": "New Expense",
+    "ASSIGN_TO": "Assign to",
+    "SHARED_PERCENTAGES": "Shared Percentages",
+    "SAVE_PERCENTAGES": "Save percentages",
+    "HISTORY": "Change history",
+    "NO_CHANGES": "No changes recorded",
+    "SHARED_EXPENSE": "Shared expense",
+    "TOTAL_SHARED": "Shared total",
+    "TOTAL_EXPENSE": "Total expense",
+    "PREVIOUS": "Previous",
+    "NEW": "New",
+    "USER": "User",
+    "PERCENTAGE": "Percentage",
+    "TOTAL": "Total",
+    "DETAIL": "Detail",
+    "ADD": "Add",
+    "LEAVE": "Leave group",
+    "PIN": "Pin",
+    "UNPIN": "Unpin",
+    "MEMBERS": "Members",
+    "CALCULATE": "Calculate",
+    "COMPLETE": "Complete",
+    "DELETE": "Delete",
+    "NO_EXPENSES": "No expenses registered",
+    "FIRST_EXPENSE": "Add first expense"
   }
 }

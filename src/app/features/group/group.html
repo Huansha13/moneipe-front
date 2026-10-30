@@ -59,10 +59,13 @@
                 </span>
 
                 <span matListItemTitle>{{ group.title }}</span>
+                @if (unreadCount(group.id) > 0) {
+                  <span matListItemMeta class="group-badge rounded-pill">{{ unreadCount(group.id) }}</span>
+                }
 
                 <span matListItemLine class="group-item__line d-flex align-items-center gap-2">
-                  <span class="flex-1 text-truncate">{{ group.description }}</span>
-                  <span class="fs-xs text-muted text-nowrap">#{{ group.id }}</span>
+                  <span class="flex-1 text-truncate text-muted">{{ group.description }}</span>
+                 <!-- <span class="fs-xs text-muted text-nowrap">#{{ group.id }}</span>-->
                 </span>
               </mat-list-item>
             }

@@ -15,6 +15,7 @@ import {NAV_ITEMS, NavItem} from '../../../shared/models/nav-items.model';
 import {LanguageSwitcherComponent} from '../../../shared/components/language-switcher/language-switcher';
 import {TranslateService, TranslatePipe} from '@ngx-translate/core';
 import {SettingsService} from '../../../shared/services/settings.service';
+import {GroupService} from '../../../features/group/service/group.service';
 
 @Component({
   selector: 'app-main-layout',
@@ -40,11 +41,12 @@ export class MainLayout implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly language = inject(LanguageService);
   private readonly settings = inject(SettingsService);
+  private readonly groupService = inject(GroupService);
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
   sidenavOpened = signal(true);
   activeRouteName = signal('');
-  countMyGroups = signal(5); // get api - backend
+  countMyGroups = this.groupService.groupCount;
   navItems: NavItem[] = NAV_ITEMS;
 
   get userFirstNameShort(): string {
@@ -75,6 +77,7 @@ export class MainLayout implements OnInit {
   }
 
   ngOnInit(): void {
+    this.groupService.loadGroups();
     this.setActiveRoute(this.router.url);
     this.listenToRouteChanges();
   }

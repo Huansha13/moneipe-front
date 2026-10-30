@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{ 'INVESTMENTS.CREATE_ASSET_TITLE' | translate }}</h2>
+
+<mat-dialog-content class="pt-2">
+  <form [formGroup]="form" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'INVESTMENTS.NAME' | translate }}</mat-label>
+      <input matInput formControlName="nombre" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'INVESTMENTS.DESCRIPTION' | translate }}</mat-label>
+      <textarea matInput formControlName="descripcion" rows="2"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'INVESTMENTS.AMOUNT' | translate }}</mat-label>
+      <input matInput type="number" formControlName="monto" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'ACCOUNT.CANCEL' | translate }}</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || saving()">
+    @if (saving()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      {{ 'INVESTMENTS.SAVE' | translate }}
+    }
+  </button>
+</mat-dialog-actions>

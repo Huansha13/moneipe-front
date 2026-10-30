@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>{{ 'CONTROL.CREATE_TITLE' | translate }}</h2>
+
+<mat-dialog-content class="pt-2">
+  <form [formGroup]="form" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'CONTROL.TITLE' | translate }}</mat-label>
+      <input matInput formControlName="titulo" />
+      @if (form.controls.titulo.hasError('required')) {
+        <mat-error>{{ 'CONTROL.TITLE_REQUIRED' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'CONTROL.DESCRIPTION' | translate }}</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="tipo">
+        <mat-option value="GASTO">Gasto</mat-option>
+        <mat-option value="INVERSION">Inversión</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Moneda</mat-label>
+      <mat-select formControlName="moneda">
+        <mat-option value="PEN">PEN</mat-option>
+        <mat-option value="USD">USD</mat-option>
+        <mat-option value="EUR">EUR</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'GROUP.MEMBERS.LABEL' | translate }}</mat-label>
+      @if (loadingUsers()) {
+        <mat-spinner diameter="20" />
+      } @else {
+        <mat-select formControlName="inviteMembers" multiple>
+          @for (user of users; track user.id) {
+            <mat-option [value]="user.id">
+              {{ user.firstName }} {{ user.lastName }} ({{ user.username }})
+            </mat-option>
+          }
+        </mat-select>
+      }
+    </mat-form-field>
+    <span class="fs-xs text-muted">{{ 'CONTROL.INVITE_HINT' | translate }}</span>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'ACCOUNT.CANCEL' | translate }}</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || saving()">
+    @if (saving()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      {{ 'CONTROL.SAVE' | translate }}
+    }
+  </button>
+</mat-dialog-actions>

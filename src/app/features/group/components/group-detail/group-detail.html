@@ -36,6 +36,14 @@
         >
           <mat-icon>groups</mat-icon>
         </button>
+        <button
+          mat-icon-button
+          color="warn"
+          [attr.aria-label]="'GROUP.LEAVE' | translate"
+          (click)="salir()"
+        >
+          <mat-icon>exit_to_app</mat-icon>
+        </button>
       </div>
     </header>
 

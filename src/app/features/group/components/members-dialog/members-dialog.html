@@ -1,44 +1,81 @@
-<h2 mat-dialog-title class="d-flex align-items-center gap-2">
-  <mat-icon>groups</mat-icon>
-  <span>{{ 'GROUP.MEMBERS.TITLE' | translate }}</span>
-</h2>
+<h2 mat-dialog-title>{{ 'GROUP.MEMBERS.TITLE' | translate }}</h2>
 
-<mat-dialog-content class="members-dialog">
-  <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
+<mat-dialog-content class="members-dialog pt-2">
+  <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
     <span class="fw-semibold text-truncate">{{ data.group.title }}</span>
     <span class="fs-sm text-muted text-nowrap">
-      {{ data.group.members.length }} {{ 'GROUP.MEMBERS.UNIT' | translate }}
+      {{ displayedMembers().length }} {{ 'GROUP.MEMBERS.UNIT' | translate }}
     </span>
   </div>
 
-  <mat-list class="p-0">
-    @for (member of data.group.members; track member.id) {
-      <mat-list-item>
-        <span
-          matListItemAvatar
-          class="bg-gray-200 d-flex align-items-center justify-content-center fw-semibold"
-        >
-          {{ member.name | initials }}
-        </span>
+  @if (loading()) {
+    <div class="d-flex justify-content-center py-3">
+      <mat-spinner diameter="24" />
+    </div>
+  } @else {
+    <mat-list class="p-0">
+      @for (member of displayedMembers(); track member.id) {
+        <mat-list-item>
+          <span
+            matListItemAvatar
+            class="bg-gray-200 d-flex align-items-center justify-content-center fw-semibold"
+          >
+            {{ member.name | initials }}
+          </span>
 
-        <span matListItemTitle>{{ member.name }}</span>
-        <span matListItemLine class="d-flex align-items-center fs-xs text-muted">{{ member.email }}</span>
+          <span matListItemTitle>{{ member.name }}</span>
+          <span matListItemLine class="d-flex align-items-center fs-xs text-muted">{{ member.email }}</span>
 
-        <span
-          matListItemMeta
-          class="align-self-center fs-xs fw-semibold"
-          [class.text-primary]="member.role === 'ADMIN'"
-          [class.text-muted]="member.role !== 'ADMIN'"
-        >
-          {{ (member.role === 'ADMIN' ? 'GROUP.ROLES.ADMIN' : 'GROUP.ROLES.MEMBER') | translate }}
-        </span>
-      </mat-list-item>
-    } @empty {
-      <div class="py-4 text-center fs-sm text-muted">{{ 'GROUP.MEMBERS.EMPTY' | translate }}</div>
+          <span
+            matListItemMeta
+            class="align-self-center fs-xs fw-semibold"
+            [class.text-primary]="member.role === 'ADMIN'"
+            [class.text-muted]="member.role !== 'ADMIN'"
+          >
+            {{ (member.role === 'ADMIN' ? 'GROUP.ROLES.ADMIN' : 'GROUP.ROLES.MEMBER') | translate }}
+          </span>
+
+          @if (data.group.role === 'ADMIN') {
+            <button mat-icon-button color="warn" (click)="removeMember(member.id)" [disabled]="saving()" matListItemMeta>
+              <mat-icon>person_remove</mat-icon>
+            </button>
+          }
+        </mat-list-item>
+      } @empty {
+        <div class="py-4 text-center fs-sm text-muted">{{ 'GROUP.MEMBERS.EMPTY' | translate }}</div>
+      }
+    </mat-list>
+
+    @if (data.group.role === 'ADMIN') {
+      <div class="d-flex align-items-center gap-2 mt-3">
+        <mat-form-field appearance="outline" class="flex-1" subscriptSizing="dynamic">
+          <mat-label>Agregar miembro</mat-label>
+          <mat-select [formControl]="selectedUserId">
+            @for (u of availableUsers(); track u.id) {
+              <mat-option [value]="u.id">{{ u.firstName }} {{ u.lastName }} ({{ u.username }})</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" (click)="addMember()" [disabled]="!selectedUserId.value || saving()">
+          @if (saving()) {
+            <mat-spinner diameter="20" />
+          } @else {
+            <mat-icon>person_add</mat-icon>
+          }
+        </button>
+      </div>
     }
-  </mat-list>
+  }
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
+  <button mat-stroked-button color="warn" (click)="leaveGroup()" [disabled]="saving()">
+    @if (saving()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      Salir del grupo
+    }
+  </button>
   <button mat-stroked-button (click)="dialogRef.close()">{{ 'ACCOUNT.CLOSE' | translate }}</button>
 </mat-dialog-actions>

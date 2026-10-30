@@ -1,0 +1,22 @@
+.portfolios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
+.portfolio-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.activos-section {
+  flex: 1;
+}
+
+.empty-activos {
+  border-style: dashed;
+}
+
+.activo-item {
+  background-color: var(--mat-sys-surface-container-low);
+}

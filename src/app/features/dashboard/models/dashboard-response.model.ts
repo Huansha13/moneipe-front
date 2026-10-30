@@ -3,6 +3,8 @@ export interface ControlResponse {
   titulo: string;
   descripcion: string | null;
   grupoId: string | null;
+  estadoControl?: string;
+  tipo?: string;
 }
 
 export interface GrupoResponse {

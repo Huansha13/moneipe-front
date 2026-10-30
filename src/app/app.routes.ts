@@ -22,8 +22,12 @@ export const routes: Routes = [
         loadComponent: () => import('./features/group/group').then(m => m.Group)
        },
       {
-        path: 'investments',
-        loadComponent: () => import('./features/investment/investment').then(m => m.Investment)
+        path: 'controls',
+        loadComponent: () => import('./features/control/control').then(m => m.Control)
+      },
+      {
+        path: 'controls/:id',
+        loadComponent: () => import('./features/control/control-detail').then(m => m.ControlDetail)
       },
       {
         path: 'users',

@@ -8,7 +8,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
 import {TranslatePipe} from '@ngx-translate/core';
-import {Group} from '../../service/group.service';
+import {Group, GroupService} from '../../service/group.service';
 import {GroupChatService} from '../../service/group-chat.service';
 import {MembersDialog, MembersDialogData} from '../members-dialog/members-dialog';
 import {GroupInfoDialog, GroupInfoDialogData} from '../group-info-dialog/group-info-dialog';
@@ -34,6 +34,7 @@ export class GroupDetail {
 
   private readonly dialog = inject(MatDialog);
   private readonly chatService = inject(GroupChatService);
+  private readonly groupService = inject(GroupService);
 
   protected readonly messageControl = new FormControl('', {nonNullable: true});
   private readonly draft = toSignal(this.messageControl.valueChanges, {initialValue: ''});
@@ -81,14 +82,29 @@ export class GroupDetail {
     });
   }
 
+  protected async salir() {
+    const group = this.group();
+    if (!group) return;
+    try {
+      await this.groupService.salirGrupo(group.id);
+    } catch (err) {
+      console.error('Error al salir del grupo:', err);
+    }
+    this.groupService.reloadGroups();
+    this.back.emit();
+  }
+
   protected openMembers() {
     const group = this.group();
     if (!group) return;
 
-    this.dialog.open(MembersDialog, {
+    const dialogRef = this.dialog.open(MembersDialog, {
       width: '480px',
       maxWidth: '95vw',
       data: {group} as MembersDialogData,
+    });
+    dialogRef.afterClosed().subscribe(() => {
+      this.groupService.reloadGroups();
     });
   }
 }

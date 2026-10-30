@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>{{ 'INVESTMENTS.CREATE_TITLE' | translate }}</h2>
+
+<mat-dialog-content class="pt-2">
+  <form [formGroup]="form" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'INVESTMENTS.NAME' | translate }}</mat-label>
+      <input matInput formControlName="nombre" />
+      @if (form.controls.nombre.hasError('required')) {
+        <mat-error>{{ 'INVESTMENTS.NAME_REQUIRED' | translate }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'INVESTMENTS.DESCRIPTION' | translate }}</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'INVESTMENTS.CURRENCY' | translate }}</mat-label>
+      <mat-select formControlName="moneda">
+        <mat-option value="PEN">PEN</mat-option>
+        <mat-option value="USD">USD</mat-option>
+        <mat-option value="EUR">EUR</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ 'INVESTMENTS.GROUP_OPTIONAL' | translate }}</mat-label>
+      <mat-select formControlName="grupoId">
+        <mat-option [value]="null">{{ 'INVESTMENTS.NO_GROUP' | translate }}</mat-option>
+        @for (group of groups(); track group.id) {
+          <mat-option [value]="group.id">{{ group.title }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">{{ 'ACCOUNT.CANCEL' | translate }}</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="form.invalid || saving()">
+    @if (saving()) {
+      <mat-spinner diameter="20" />
+    } @else {
+      {{ 'INVESTMENTS.SAVE' | translate }}
+    }
+  </button>
+</mat-dialog-actions>

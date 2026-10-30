@@ -1,0 +1,26 @@
+.gastos-scroll {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.bar-bg {
+  height: 8px;
+  background: var(--mat-sys-surface-container-highest);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--mat-sys-primary);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.percent-box input {
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+

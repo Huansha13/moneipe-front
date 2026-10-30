@@ -1,5 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -34,6 +35,7 @@ export const appConfig: ApplicationConfig = {
       useValue: [apiCondition],
     },
     provideHttpClient(withInterceptors([includeBearerTokenInterceptor])),
+    provideCharts(withDefaultRegisterables()),
     provideRouter(routes),
   ],
 };

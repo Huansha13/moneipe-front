@@ -1,92 +1,114 @@
-import {Component, inject} from '@angular/core';
-import {DecimalPipe} from '@angular/common';
-import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {MatFabButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
-import {MatTableModule} from '@angular/material/table';
-import {MatTabChangeEvent, MatTabsModule} from '@angular/material/tabs';
-import {MatTooltip} from '@angular/material/tooltip';
+import { Component, inject, OnInit } from '@angular/core';
+import { AuthService } from '../../core/auth/auth.service';
+import { TranslatePipe } from '@ngx-translate/core';
+import { DecimalPipe } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 
-export interface PeriodicElement {
-  id: number;
-  name: string;
-  description: string;
-  money: number;
-  currencyType: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, name: 'Hydrogen', description: 'The lightest element', money: 100, currencyType: 'USD'},
-  {id: 2, name: 'Helium', description: 'A noble gas', money: 200, currencyType: 'USD'},
-  {id: 3, name: 'Lithium', description: 'A soft metal', money: 300, currencyType: 'USD'},
-  {id: 4, name: 'Beryllium', description: 'A hard metal', money: 400, currencyType: 'USD'},
-  {id: 5, name: 'Boron', description: 'A metalloid', money: 500, currencyType: 'USD'},
-  {id: 6, name: 'Carbon', description: 'A nonmetal', money: 600, currencyType: 'USD'},
-  {id: 7, name: 'Nitrogen', description: 'A diatomic gas', money: 700, currencyType: 'USD'},
-  {id: 8, name: 'Oxygen', description: 'A diatomic gas', money: 800, currencyType: 'USD'},
-  {id: 9, name: 'Fluorine', description: 'A halogen', money: 900, currencyType: 'USD'},
-  {id: 10, name: 'Neon', description: 'A noble gas', money: 1000, currencyType: 'USD'},
-];
-
-interface InvestmentTab {
-  id: number;
-  name: string;
-  total: number;
-  fecha: string;
-  dataSource: PeriodicElement[];
-}
+import { MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
+import { InvestmentService, Activo } from './service/investment.service';
+import { GroupService } from '../group/service/group.service';
+import { MembersDialog, MembersDialogData } from '../group/components/members-dialog/members-dialog';
+import { CreatePortfolioDialog } from './components/create-portfolio-dialog/create-portfolio-dialog';
+import { CreateAssetDialog } from './components/create-asset-dialog/create-asset-dialog';
 
 @Component({
   selector: 'app-investment',
   imports: [
     TranslatePipe,
     DecimalPipe,
-    MatFabButton,
+    MatCardModule,
     MatIcon,
     MatTableModule,
     MatTabsModule,
-    MatTooltip
+    MatDialogModule,
+    MatMenuModule,
+    MatButtonModule,
   ],
   templateUrl: './investment.html',
   styleUrl: './investment.scss',
 })
-export class Investment {
-  private readonly translate = inject(TranslateService);
+export class Investment implements OnInit {
+  private readonly investmentService = inject(InvestmentService);
+  private readonly groupService = inject(GroupService);
+  private readonly authService = inject(AuthService);
+  private readonly dialog = inject(MatDialog);
 
-  dataTab: InvestmentTab[] = [
-    {
-      id: 1,
-      name: this.translate.instant('INVESTMENTS.TAB_AJI'),
-      total: 1000,
-      fecha: '2023-01-01',
-      dataSource: []
-    },
-    {
-      id: 2,
-      name: this.translate.instant('INVESTMENTS.TAB_CANA'),
-      total: 2000,
-      fecha: '2023-01-01',
-      dataSource: []
-    },
-    {
-      id: 3,
-      name: this.translate.instant('INVESTMENTS.TAB_MAIZ'),
-      total: 3000,
-      fecha: '2023-01-01',
-      dataSource: []
+  protected async openMembers(groupId?: string | null) {
+    if (!groupId) {
+      console.warn('No hay grupo asociado a este portafolio');
+      return;
     }
-  ];
-
-  displayedColumns: string[] = ['id', 'name', 'description', 'money'];
-
-  protected openFormInvestment() {
-    // logica para abrir el formulario de inversión
+    try {
+      const usuarios = await this.groupService.getGroupMembersUsers(groupId);
+      const members = (usuarios ?? []).map((u: any) => ({
+        id: u.id,
+        name: `${u.nombres ?? ''} ${u.apellidos ?? ''}`.trim() || u.username,
+        email: u.email ?? '',
+        role: 'MIEMBRO',
+      }));
+      const currentUserId = this.authService.profile().userId;
+      const isAdmin = members.some(m => m.id === currentUserId && m.role === 'ADMIN');
+      const group = { id: groupId, title: 'Miembros del grupo', description: '', role: isAdmin ? 'ADMIN' : 'MIEMBRO', members };
+      const dialogRef = this.dialog.open(MembersDialog, {
+        width: '480px',
+        maxWidth: '95vw',
+        data: { group } as MembersDialogData,
+      });
+      dialogRef.afterClosed().subscribe(() => {
+        this.groupService.reloadGroups();
+        this.investmentService.reloadPortfolios();
+      });
+    } catch (err) {
+      console.error('Error cargando miembros:', err);
+    }
   }
 
-  protected onTabFocusChange(index: MatTabChangeEvent) {
-    let tab = this.dataTab[index.index];
-    if (tab) {
-      tab.dataSource = ELEMENT_DATA;
-    }
+  portfolios = this.investmentService.portfolios;
+  displayedColumns: string[] = ['id', 'name', 'description', 'money'];
+
+  ngOnInit(): void {
+    this.investmentService.reloadPortfolios();
+  }
+
+  activosFor(portfolioId: string): Activo[] {
+    return this.investmentService.activosFor(portfolioId);
+  }
+
+  protected openFormInvestment() {
+    const dialogRef = this.dialog.open(CreatePortfolioDialog, {
+      width: '480px',
+      maxWidth: '95vw',
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.investmentService.reloadPortfolios();
+      }
+    });
+  }
+
+  protected openFormAsset(portfolioId: string) {
+    const dialogRef = this.dialog.open(CreateAssetDialog, {
+      width: '480px',
+      maxWidth: '95vw',
+      disableClose: true,
+      data: { portfolioId },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.investmentService.reloadPortfolios();
+      }
+    });
+  }
+
+  protected async deletePortfolio(id: string) {
+    await this.investmentService.deletePortfolio(id);
+    this.investmentService.reloadPortfolios();
   }
 }

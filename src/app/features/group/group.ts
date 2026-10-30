@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {Group as GroupModel, GroupService} from './service/group.service';
+import {GroupChatService} from './service/group-chat.service';
 import {GroupDetail} from './components/group-detail/group-detail';
 import {CreateGroupDialog} from './components/create-group-dialog/create-group-dialog';
 import {InitialsPipe} from '../../shared/pipes/initials.pipe';
@@ -35,14 +36,19 @@ import {AuthService} from '../../core/auth/auth.service';
 })
 export class Group {
   private readonly groupService = inject(GroupService);
+  private readonly chatService = inject(GroupChatService);
   private readonly dialog = inject(MatDialog);
   private readonly authService = inject(AuthService);
+
+  protected unreadCount(groupId: string): number {
+    return this.chatService.unreadCount(groupId);
+  }
 
   groups = this.groupService.groups;
   groupCount = this.groupService.groupCount;
 
   constructor() {
-    this.groupService.loadGroups();
+    this.groupService.reloadGroups();
   }
 
   protected readonly searchControl = new FormControl('', {nonNullable: true});
@@ -64,10 +70,12 @@ export class Group {
 
   protected selectGroup(group: GroupModel) {
     this.selectedGroup.set(group);
+    this.chatService.setActiveGroup(group.id);
   }
 
   protected closeDetail() {
     this.selectedGroup.set(null);
+    this.chatService.setActiveGroup(null);
   }
 
   protected openFormUser() {
@@ -78,7 +86,7 @@ export class Group {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.groupService.loadGroups();
+        this.groupService.reloadGroups();
       }
     });
   }
