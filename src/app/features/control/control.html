@@ -43,6 +43,10 @@
       <th mat-header-cell *matHeaderCellDef>Estado</th>
       <td mat-cell *matCellDef="let c">{{ c.estadoControl }}</td>
     </ng-container>
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let c">{{ (c.fechaCreacion || c.fecha || c.createdAt) | date:'dd/MM/yyyy' }}</td>
+    </ng-container>
     <ng-container matColumnDef="gastos">
       <th mat-header-cell *matHeaderCellDef class="text-end">Gastos</th>
       <td mat-cell *matCellDef="let c" class="text-end">{{ c.cantidadGastos }}</td>
@@ -90,7 +94,7 @@
        </div>
       </td>
     </ng-container>
-    <tr mat-header-row *matHeaderRowDef="['titulo', 'descripcion', 'tipo', 'estado', 'gastos', 'acciones']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['titulo', 'descripcion', 'tipo', 'estado', 'gastos', 'acciones'];"></tr>
+    <tr mat-header-row *matHeaderRowDef="['titulo', 'descripcion', 'tipo', 'estado', 'fecha', 'gastos', 'acciones']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['titulo', 'descripcion', 'tipo', 'estado', 'fecha', 'gastos', 'acciones'];"></tr>
   </table>
 }

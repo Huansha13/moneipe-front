@@ -14,20 +14,29 @@
         <mat-card-header>
           <div class="d-flex justify-content-between align-items-center w-100">
             <mat-card-title>Gastos <small class="ml-2">({{ gastos().length }})</small></mat-card-title>
-            <button mat-flat-button color="primary" (click)="openCreateGasto(control()?.id)" [disabled]="!editable">
-              <mat-icon>add</mat-icon> Nuevo Gasto
-            </button>
+            <div class="d-flex gap-2">
+              <button mat-stroked-button color="primary" (click)="openMoveGastos()" [disabled]="selectedIds().size === 0 || !editable">
+                <mat-icon>drive_file_move</mat-icon> Mover seleccionados ({{ selectedIds().size }})
+              </button>
+              <button mat-flat-button color="primary" (click)="openCreateGasto(control()?.id)" [disabled]="!editable">
+                <mat-icon>add</mat-icon> Nuevo Gasto
+              </button>
+            </div>
           </div>
         </mat-card-header>
         <mat-card-content class="gastos-scroll">
           <table mat-table [dataSource]="displayedGastos()" class="w-100">
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox [checked]="allSelected" [indeterminate]="someSelected" (change)="toggleAll($event.checked)"></mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let g">
+                <mat-checkbox [checked]="selectedIds().has(g.id)" (change)="toggleSelection(g.id, $event.checked)"></mat-checkbox>
+              </td>
+            </ng-container>
             <ng-container matColumnDef="descripcion">
               <th mat-header-cell *matHeaderCellDef>Descripción</th>
               <td mat-cell *matCellDef="let g">{{ g.descripcion }}</td>
-            </ng-container>
-            <ng-container matColumnDef="fecha">
-              <th mat-header-cell *matHeaderCellDef>Fecha</th>
-              <td mat-cell *matCellDef="let g">{{ g.fecha }}</td>
             </ng-container>
             <ng-container matColumnDef="monto">
               <th mat-header-cell *matHeaderCellDef class="text-end">Monto</th>
@@ -57,8 +66,8 @@
                 </mat-form-field>
               </td>
             </ng-container>
-            <tr mat-header-row *matHeaderRowDef="['descripcion', 'fecha', 'monto', 'asignar', 'acciones']"></tr>
-            <tr mat-row *matRowDef="let row; columns: ['descripcion', 'fecha', 'monto', 'asignar', 'acciones'];"></tr>
+            <tr mat-header-row *matHeaderRowDef="['select', 'descripcion', 'monto', 'asignar', 'acciones']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['select', 'descripcion', 'monto', 'asignar', 'acciones'];"></tr>
           </table>
         </mat-card-content>
       </mat-card>

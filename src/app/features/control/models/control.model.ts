@@ -7,4 +7,7 @@ export interface Control {
   estadoControl: string;
   cantidadGastos: number;
   grupoId: string | null;
+  fecha?: string | null;
+  fechaCreacion?: string | null;
+  createdAt?: string | null;
 }

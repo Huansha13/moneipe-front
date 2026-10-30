@@ -22,10 +22,8 @@ export class ControlDetailService {
   readonly summaryTotals = signal<Record<string, number>>({});
   readonly summaryNames = signal<Record<string, string>>({});
   readonly percentDraft = signal<Record<string, number>>({});
-  readonly visibleCount = signal(10);
 
-  readonly displayedGastos = computed(() => this.gastos().slice(0, this.visibleCount()));
-  readonly hasMore = computed(() => this.visibleCount() < this.gastos().length);
+  readonly displayedGastos = computed(() => this.gastos());
   readonly totalGeneral = computed(() => this.gastos().reduce((sum, g) => sum + (Number(g.monto) || 0), 0));
   readonly sharedTotal = computed(() => this.gastos().filter(g => !g.usuarioId).reduce((sum, g) => sum + (Number(g.monto) || 0), 0));
   readonly percentSum = computed(() => this.members().reduce((s, m) => s + (Number(this.percentDraft()[m.id]) || 0), 0));
@@ -50,7 +48,6 @@ export class ControlDetailService {
 
   async load(controlId: string): Promise<void> {
     this.loading.set(true);
-    this.visibleCount.set(10);
     try {
     const control = await firstValueFrom(this.http.get<any>(`${this.apiUrl}/controles/${controlId}`));
     this.control.set(control);
@@ -113,6 +110,10 @@ export class ControlDetailService {
   async deleteGasto(gastoId: string, controlId: string) {
     await firstValueFrom(this.http.delete(`${this.apiUrl}/controles/${controlId}/gastos/${gastoId}`));
     await this.load(controlId);
+  }
+
+  async moveGastos(destinoControlId: string, gastoIds: string[]) {
+    await firstValueFrom(this.http.post(`${this.apiUrl}/controles/${destinoControlId}/gastos/mover`, { gastoIds }));
   }
 
   async updateGasto(gastoId: string, descripcion: string, monto: number, controlId: string) {

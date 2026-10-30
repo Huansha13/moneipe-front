@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,11 +10,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import {DatePipe, DecimalPipe} from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData } from 'chart.js';
 import { CreateGastoDialog } from './components/create-gasto-dialog/create-gasto-dialog';
+import { MoveGastosDialog } from './components/move-gastos-dialog/move-gastos-dialog';
 import { ControlDetailService } from './service/control-detail.service';
 
 @Component({
@@ -26,6 +28,7 @@ import { ControlDetailService } from './service/control-detail.service';
     MatIconModule,
     MatFormFieldModule,
     MatDividerModule,
+    MatCheckboxModule,
     MatTableModule,
     MatSelectModule,
     MatInputModule,
@@ -43,6 +46,8 @@ export class ControlDetail implements OnInit {
   private readonly authService = inject(AuthService);
   readonly svc = inject(ControlDetailService);
 
+  readonly selectedIds = signal<Set<string>>(new Set());
+
   get currentUserId() { return this.authService.profile().userId; }
 
   ngOnInit(): void {
@@ -59,9 +64,7 @@ export class ControlDetail implements OnInit {
   get summaryTotals() { return this.svc.summaryTotals; }
   get summaryNames() { return this.svc.summaryNames; }
   get percentDraft() { return this.svc.percentDraft; }
-  get visibleCount() { return this.svc.visibleCount; }
   get displayedGastos() { return this.svc.displayedGastos; }
-  get hasMore() { return this.svc.hasMore; }
   get totalGeneral() { return this.svc.totalGeneral; }
   get sharedTotal() { return this.svc.sharedTotal; }
   get percentSum() { return this.svc.percentSum; }
@@ -74,7 +77,43 @@ export class ControlDetail implements OnInit {
   get editable() { return this.svc.editable(); }
 
   isMember(userId: string | null): boolean { return this.svc.isMember(userId); }
-  onScroll(event: Event) { this.svc.visibleCount.update(v => Math.min(v + 10, this.svc.gastos().length)); }
+
+  get allSelected(): boolean {
+    const gastos = this.svc.gastos();
+    return gastos.length > 0 && gastos.every(g => this.selectedIds().has(g.id));
+  }
+  get someSelected(): boolean {
+    return this.selectedIds().size > 0 && !this.allSelected;
+  }
+
+  toggleAll(checked: boolean) {
+    if (checked) {
+      this.selectedIds.set(new Set(this.svc.gastos().map(g => g.id)));
+    } else {
+      this.selectedIds.set(new Set());
+    }
+  }
+  toggleSelection(id: string, checked: boolean) {
+    const next = new Set(this.selectedIds());
+    if (checked) next.add(id); else next.delete(id);
+    this.selectedIds.set(next);
+  }
+
+  openMoveGastos() {
+    const controlId = this.route.snapshot.paramMap.get('id') ?? '';
+    if (!controlId || this.selectedIds().size === 0) return;
+    const dialogRef = this.dialog.open(MoveGastosDialog, {
+      width: '480px', maxWidth: '95vw', disableClose: true,
+      data: { currentControlId: controlId, selectedIds: [...this.selectedIds()] },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.selectedIds.set(new Set());
+        void this.svc.load(controlId);
+      }
+    });
+  }
+
   assignUser(gasto: any, usuarioId: string | null) { void this.svc.assignUser(gasto, usuarioId); }
   deleteGasto(gastoId: string) { void this.svc.deleteGasto(gastoId, this.route.snapshot.paramMap.get('id') ?? ''); }
   updateGasto(gastoId: string, descripcion: string, monto: number) { void this.svc.updateGasto(gastoId, descripcion, monto, this.route.snapshot.paramMap.get('id') ?? ''); }

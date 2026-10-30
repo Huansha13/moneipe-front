@@ -34,7 +34,7 @@ export class CreateGastoDialog {
 
   form = new FormGroup({
     descripcion: new FormControl(''),
-    monto: new FormControl(0, [Validators.required, Validators.min(0.01)]),
+    monto: new FormControl<number | null>(null, [Validators.required, Validators.min(0.01)]),
   });
 
   cancel() {
@@ -48,7 +48,7 @@ export class CreateGastoDialog {
       await this.controlService.createGasto(
         this.controlId,
         this.form.value.descripcion ?? '',
-        this.form.value.monto!
+        Number(this.form.value.monto)
       );
       this.dialogRef.close(true);
     } catch (error) {

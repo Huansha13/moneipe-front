@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Mover gastos</h2>
+
+<mat-dialog-content class="pt-2">
+  <p class="fs-sm text-muted mb-3">Se moverán {{ selectedIds.length }} gasto(s) al control seleccionado.</p>
+  <form [formGroup]="form" class="d-flex flex-column gap-3">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Control destino</mat-label>
+      <mat-select formControlName="destinoControlId">
+        @for (c of availableControls; track c.id) {
+          <mat-option [value]="c.id">{{ c.titulo }}</mat-option>
+        }
+      </mat-select>
+      @if (form.controls.destinoControlId.hasError('required')) {
+        <mat-error>Selecciona un control</mat-error>
+      }
+    </mat-form-field>
+    @if (availableControls.length === 0) {
+      <p class="text-muted fs-sm">No hay otros controles disponibles.</p>
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button (click)="cancel()">Cancelar</button>
+  <button matButton="tonal" (click)="save()" [disabled]="form.invalid || saving() || availableControls.length === 0">
+    @if (saving()) {
+      <mat-icon class="spinner">progress_activity</mat-icon>
+    } @else {
+      <mat-icon>check</mat-icon>
+    }
+    Mover
+  </button>
+</mat-dialog-actions>

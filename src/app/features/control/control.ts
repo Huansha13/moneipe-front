@@ -1,4 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -22,6 +23,7 @@ import { ESTADO_CONTROL, ROL_GRUPO } from '../../shared/constants/app.constants'
   selector: 'app-control',
   imports: [
     TranslatePipe,
+    DatePipe,
     MatCardModule,
     MatTabsModule,
     MatTableModule,
